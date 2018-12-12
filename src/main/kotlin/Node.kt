@@ -3,25 +3,20 @@ import java.util.concurrent.locks.ReentrantLock
 import java.util.function.Consumer
 import kotlin.concurrent.withLock
 
-class Node(val name: String) {
-    private var parents: List<Node> = emptyList()
-    private var treated: Boolean = false
+class Node(val name: String, val url: String) {
+    var changes: Boolean = false
+    var treated: Boolean = false
+    var parents: List<Node> = emptyList()
+
     private val lock: Lock = ReentrantLock()
-
-    fun setParents(parents: List<Node>) {
-        this.parents = parents
-    }
-
-    fun setTreated(treated: Boolean) {
-        this.treated = treated
-    }
-
-    fun isTreated(): Boolean = lock.withLock { return this.treated }
 
     fun treat(action: Consumer<Node>) {
         parents.parallelStream().forEach { it.treat(action) }
-        if (!isTreated() && (parents.any { it.isTreated() } || parents.isEmpty())) {
+        if (mustBeTreated()) {
             lock.withLock { action.accept(this) }
         }
     }
+
+    fun mustBeTreated(): Boolean =
+        lock.withLock { return !treated && (changes || parents.any { it.treated } || parents.isEmpty()) }
 }

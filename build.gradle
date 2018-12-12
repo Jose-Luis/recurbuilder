@@ -8,6 +8,9 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+       url "http://nexus.aireuropa.com/repository/aireuropa-central/"
+    }
 }
 
 dependencies {
