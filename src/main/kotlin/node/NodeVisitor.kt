@@ -15,7 +15,6 @@ class DirtyPrinterVisitor : NodeVisitor {
     override fun visit(node: Node) {
         if (node.isDirty()) {
             System.out.println("================== ${node.name.toUpperCase()} ==========================")
-            System.out.println("==================        ${node.url}         ==========================")
             GIT_STATUS.run(node.url)
         }
     }
@@ -37,7 +36,7 @@ class DirtyBuilderVisitor : NodeVisitor {
     override fun visit(node: Node) {
         if (node.isDirty()) {
             if (MVN.run(node.url).exitValue() == 0) {
-                node.treated = true
+                node.cleaned = true
             } else {
                 exitProcess(33);
             }
