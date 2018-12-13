@@ -8,10 +8,9 @@ fun main(args: Array<String>) {
     val projects = getProjectTree(args[0])
 
     projects[args[1]]?.acceptVisitors(
-        UpdaterVisitor(),
         ChangeCheckerVisitor(),
         DirtyPrinterVisitor(),
-        DirtyBuilderVisitor()
+        RetarderVisitor()
     )
     exitProcess(0)
 }
@@ -44,7 +43,7 @@ fun getProjectTree(basedir: String): Map<String, Node> {
     return projects
 }
 
-fun toPair(name: String, url: String): Pair<String, Node> = Pair(name, Node(name, url))
+fun toPair(name: String, url: String): Pair<String, Node> = Pair(name, Node(name, url, ""))
 
 fun String.setParents(projects: Map<String, Node>, vararg parents: String) {
     projects[this]?.parents = parents.filter { projects.containsKey(it) }.map { projects.getValue(it) }
