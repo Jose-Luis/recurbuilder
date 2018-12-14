@@ -10,7 +10,7 @@ class MavenExecuter(buildParams: String) : NodeVisitor {
 
     override fun visit(node: Node) {
         if (!node.hasFlag("built")) {
-            if (MVN.run(node.url).exitValue() == 0) {
+            if (MVN.run(node.dir).exitValue() == 0) {
                 node.flag("built")
             } else {
                 exitProcess(33)

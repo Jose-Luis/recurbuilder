@@ -2,18 +2,18 @@ package node
 
 import java.io.File
 
-fun String.run(workingDir: String): Process {
+fun String.run(workingDir: File): Process {
     val proc = ProcessBuilder(*("cmd /c \"${this}\"".split("\\s".toRegex())).toTypedArray())
-        .directory(File(workingDir))
+        .directory(workingDir)
         .inheritIO()
         .start()
     proc.waitFor()
     return proc
 }
 
-fun String.runCommand(workingDir: String): Process {
+fun String.runCommand(workingDir: File): Process {
     val proc = ProcessBuilder(*("cmd /c \"${this}\"".split("\\s".toRegex())).toTypedArray())
-        .directory(File(workingDir))
+        .directory(workingDir)
         .redirectOutput(ProcessBuilder.Redirect.PIPE)
         .redirectError(ProcessBuilder.Redirect.PIPE)
         .start()

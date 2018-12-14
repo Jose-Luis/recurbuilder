@@ -1,11 +1,12 @@
 package node
 
 import node.visitors.NodeVisitor
+import java.io.File
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class Node(val name: String, val url: String) {
+class Node(val name: String, val dir: File) {
 
     private var flags: MutableMap<String, Boolean> = mutableMapOf()
 
