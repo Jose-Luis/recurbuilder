@@ -1,49 +1,33 @@
+import com.beust.klaxon.Klaxon
 import node.*
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
 
     val projects = getProjectTree(args[0])
+    val cache = StatusCache("buildercache")
+    val node = projects[args[1]]!!
 
-    projects[args[1]]?.acceptVisitors(
-        UpdaterVisitor(),
-        ChangeCheckerVisitor(),
-        DirtyPrinterVisitor(),
-        DirtyBuilderVisitor()
-    )
+    node.acceptVisitorAfterDeps(Updater())
+    node.acceptVisitorAfterDeps(ChangeChecker(cache))
+    node.acceptVisitorAfterDeps(DirtyPrinter())
+    node.acceptVisitorAfterDeps(DirtyBuilder())
+    node.acceptVisitorAfterDeps(CacheUpdater(cache))
+    cache.persist()
+
     exitProcess(0)
 }
 
-fun getProjectTree(basedir: String): Map<String, Node> {
-    var projects = mapOf(
-        toPair("availability", basedir.plus("aireuropa-availability-parent")),
-        toPair("service", basedir.plus("aireuropa-service-parent")),
-        toPair("checkin", basedir.plus("aireuropa-checkin-parent")),
-        toPair("backoffice", basedir.plus("aireuropa-backoffice-parent")),
-        toPair("availability-provider", basedir.plus("aireuropa-availability-provider-parent")),
-        toPair("payment", basedir.plus("aireuropa-payment-parent")),
-        toPair("commons", basedir.plus("aireuropa-commons-parent")),
-        toPair("ticketing", basedir.plus("aireuropa-ticketing-parent")),
-        toPair("amadeus", basedir.plus("aireuropa-amadeus-parent")),
-        toPair("connam", basedir.plus("aireuropa-connam-parent")),
-        toPair("dreamliner", basedir.plus("dreamliner-commons-parent"))
-    )
-    "availability-provider".setParents(projects, "commons")
-    "availability".setParents(projects, "availability-provider")
-    "service".setParents(projects, "availability-provider", "payment")
-    "checking".setParents(projects, "payment")
-    "backoffice".setParents(projects, "payment")
-    "payment".setParents(projects, "commons", "ticketing")
-    "ticketing".setParents(projects, "amadeus")
-    "amadeus".setParents(projects, "connam")
-    "connam".setParents(projects, "dreamliner")
-    "commons".setParents(projects, "dreamliner")
+data class Project(val name: String, val url: String, val deps: List<String>)
 
+fun getProjectTree(basedir: String): Map<String, Node> {
+    val projectJson = Klaxon().parseArray<Project>(File("projects.json").inputStream())!!
+    val projects = projectJson
+        .filter { File(basedir.plus(it.url)).isAbsolute }
+        .map { Node(it.name, basedir.plus(it.url)) }
+        .associateBy { it.name }
+    projectJson.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }
     return projects
 }
 
-fun toPair(name: String, url: String): Pair<String, Node> = Pair(name, Node(name, url))
-
-fun String.setParents(projects: Map<String, Node>, vararg parents: String) {
-    projects[this]?.parents = parents.filter { projects.containsKey(it) }.map { projects.getValue(it) }
-}

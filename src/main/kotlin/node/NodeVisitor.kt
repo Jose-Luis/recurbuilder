@@ -11,34 +11,47 @@ interface NodeVisitor {
     fun visit(node: Node)
 }
 
-class DirtyPrinterVisitor : NodeVisitor {
+class DirtyPrinter : NodeVisitor {
     override fun visit(node: Node) {
-        if (node.isDirty()) {
-            System.out.println("================== ${node.name.toUpperCase()} ==========================")
+        if (node.hasOrInheritFlag("dirty") && !node.hasFlag("printed")) {
+            System.out.println("== ${node.name.toUpperCase()} will be built")
             GIT_STATUS.run(node.url)
+            node.flag("printed")
         }
     }
 }
 
-class UpdaterVisitor : NodeVisitor {
+class Updater : NodeVisitor {
     override fun visit(node: Node) {
-        GIT_PULL.run(node.url)
+        if (!node.hasFlag("update-checked")) {
+            node.setFlag("updated", !GIT_PULL.runCommand(node.url).output().isBlank())
+            node.flag("update-checked")
+        }
     }
 }
 
-class ChangeCheckerVisitor : NodeVisitor {
+class CacheUpdater(val cache: StatusCache) : NodeVisitor {
     override fun visit(node: Node) {
-        node.dirty = !CHANGES_COMMAND.runCommand(node.url).output().isBlank();
+        cache.updateCache(node.name, CHANGES_COMMAND.runCommand(node.url).output())
     }
 }
 
-class DirtyBuilderVisitor : NodeVisitor {
+class ChangeChecker(val cache: StatusCache) : NodeVisitor {
     override fun visit(node: Node) {
-        if (node.isDirty()) {
+        node.setFlag(
+            "dirty",
+            node.hasFlag("updated") && cache.isChange(node.name, CHANGES_COMMAND.runCommand(node.url).output())
+        )
+    }
+}
+
+class DirtyBuilder : NodeVisitor {
+    override fun visit(node: Node) {
+        if (node.hasOrInheritFlag("dirty") && !node.hasFlag("built")) {
             if (MVN.run(node.url).exitValue() == 0) {
-                node.cleaned = true
+                node.flag("built")
             } else {
-                exitProcess(33);
+                exitProcess(33)
             }
         }
     }
