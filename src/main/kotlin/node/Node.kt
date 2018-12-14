@@ -1,5 +1,6 @@
 package node
 
+import node.visitors.NodeVisitor
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
