@@ -7,15 +7,13 @@ group 'com.globalia'
 version '1.0-SNAPSHOT'
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven {
-       url "http://nexus.aireuropa.com/repository/aireuropa-central/"
-    }
+    jcenter()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile 'no.tornado:tornadofx:1.7.17'
     implementation 'com.github.ajalt:clikt:1.6.0'
     implementation 'com.beust:klaxon:3.0.1'
 }

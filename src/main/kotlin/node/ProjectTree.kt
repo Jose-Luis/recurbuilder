@@ -1,6 +1,7 @@
 package node
 
 import com.beust.klaxon.Klaxon
+import tornadofx.*
 import java.io.File
 
 
@@ -21,4 +22,6 @@ class ProjectTree(dir: File) {
             .associateBy { it.name }
         projectJson.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }
     }
+
+    fun nodes() = projects.values.toList().observable()
 }

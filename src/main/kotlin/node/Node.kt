@@ -8,8 +8,8 @@ import kotlin.concurrent.withLock
 
 class Node(val name: String, val dir: File) {
 
-    private var flags: MutableMap<String, Boolean> = mutableMapOf()
-
+    val flags: MutableMap<String, Boolean> = mutableMapOf()
+    
     var deps: List<Node> = emptyList()
 
     private val lock: Lock = ReentrantLock()
