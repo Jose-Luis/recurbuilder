@@ -1,15 +1,15 @@
 package node.visitors
 
 import node.Node
-import node.StatusCache
+import info.StatusCache
 import node.output
 import node.runCommand
 
-class ChangeChecker(val cache: StatusCache) : NodeVisitor {
+class ChangeChecker(val cache: StatusCache, val changeCommand: String) : NodeVisitor {
     override fun visit(node: Node) {
         node.setFlag(
             "dirty",
-            node.hasFlag("updated") && cache.isChange(node.name, CHANGES_COMMAND.runCommand(node.dir).output())
+            node.hasFlag("updated") && cache.isChange(node.name, changeCommand.runCommand(node.dir).output())
         )
     }
 }

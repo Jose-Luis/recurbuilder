@@ -4,13 +4,11 @@ import node.Node
 import node.run
 import kotlin.system.exitProcess
 
-class MavenExecuter(buildParams: String) : NodeVisitor {
-
-    private val MVN = "mvn -T 4 clean install $buildParams"
+class MavenExecuter(val buildCommand: String) : NodeVisitor {
 
     override fun visit(node: Node) {
         if (!node.hasFlag("built")) {
-            if (MVN.run(node.dir).exitValue() == 0) {
+            if (buildCommand.run(node.dir).exitValue() == 0) {
                 node.flag("built")
             } else {
                 exitProcess(33)
