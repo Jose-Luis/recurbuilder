@@ -30,7 +30,7 @@ class Info(file: File) {
     init {
         root = Klaxon().parse<Root>(file.inputStream())!!
         projects = ProjectTree(root)
-        cache = StatusCache(root.`cache-file`)
         commands = root.commands
+        cache = StatusCache(root.`cache-file`, commands.changes)
     }
 }

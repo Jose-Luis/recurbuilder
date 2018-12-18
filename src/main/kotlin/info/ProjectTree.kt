@@ -18,4 +18,6 @@ class ProjectTree(rootInfo: Info.Root) {
             .associateBy { it.name }
         rootInfo.projects.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }
     }
+
+    fun all(): Collection<Node> = projects.values
 }

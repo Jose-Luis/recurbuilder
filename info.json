@@ -2,10 +2,10 @@
   "repos-dir": "C:\\Users\\xx654\\Development\\Repositories",
   "cache-file": "buildercache",
   "commands": {
-    "build": "mvn -T 4 clean install",
+    "build": "mvn -T 4 clean install -PskipSiebelTests",
     "update": "git pull origin development",
-    "print": "git status",
-    "changes": "git status --porcelain"
+    "print": "git status --porcelain",
+    "changes": "git diff"
   },
   "projects": [
     {

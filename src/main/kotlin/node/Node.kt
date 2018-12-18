@@ -14,13 +14,12 @@ class Node(val name: String, val dir: File) {
 
     private val lock: Lock = ReentrantLock()
 
-    fun acceptVisitorAfterDeps(visitor: NodeVisitor) {
-        deps.parallelStream().forEach { it.acceptVisitorAfterDeps(visitor) }
-        acceptVisitor(visitor)
-    }
-
     fun acceptVisitor(visitor: NodeVisitor) {
         lock.withLock { visitor.visit(this) }
+    }
+
+    fun dependsOn(nodename: String): Boolean {
+        return name == nodename || deps.any { dep -> dep.dependsOn(nodename) }
     }
 
     fun setFlag(property: String, value: Boolean) {

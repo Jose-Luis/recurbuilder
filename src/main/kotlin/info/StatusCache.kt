@@ -1,29 +1,31 @@
 package info
 
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
-import com.beust.klaxon.Parser
+import node.Node
+import node.output
+import node.runCommand
 import java.io.File
 
-class StatusCache(path: String) {
+class StatusCache(path: String, val changeCommand: String) {
 
-    private val cacheFile: File = File(path).absoluteFile
-    private val statuses: JsonObject
+    private val cacheDir: File = File(path).absoluteFile
 
     init {
-        if (cacheFile.createNewFile()) {
-            cacheFile.writeText("{}")
-        }
-        statuses = Parser().parse(path) as JsonObject
+        if (!cacheDir.isDirectory) cacheDir.mkdir()
     }
 
-    fun isChange(nodename: String, newStatus: String): Boolean = statuses.getOrDefault(nodename, "") != newStatus
-
-    fun updateCache(nodename: String, newStatus: String) {
-        statuses.put(nodename, newStatus)
+    private fun getCacheFile(nodename: String): File {
+        val cacheFile = cacheDir.resolve(nodename)
+        if (!cacheFile.isFile) cacheFile.createNewFile()
+        return cacheFile
     }
 
-    fun persist() {
-        cacheFile.writeText(Klaxon().toJsonString(statuses))
+    fun isChange(node: Node): Boolean {
+        return getCacheFile(node.name).readText() != getCacheInfo(node)
     }
+
+    fun updateCache(node: Node) {
+        getCacheFile(node.name).writeText(getCacheInfo(node))
+    }
+
+    private fun getCacheInfo(node: Node) = "diff: ".plus(changeCommand.runCommand(node.dir).output())
 }
