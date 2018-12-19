@@ -9,7 +9,8 @@ import info.Info
 import java.io.File
 import kotlin.system.exitProcess
 
-class Deploy : CliktCommand() {
+class Deploy :
+    CliktCommand(help = "Deploy a project on a server") {
     private val projectname by argument()
     private val server by argument()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))

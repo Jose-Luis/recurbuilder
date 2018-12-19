@@ -16,11 +16,11 @@ import node.visitors.modifiers.*
 class Changes() :
     CliktCommand(help = "Print the changes the project, its dependecies and childs") {
     private val nodename by argument()
-    private val cascade by option("-c", "--cascade").flag()
+    private val children by option("-c", "--children").flag()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
     override fun run() {
         val info = Info(infoFile)
-        val filter = if (cascade) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
+        val filter = if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { filter.test(it) }.parallelStream().forEach { node ->
             node.acceptVisitor(PreOrder(Composed(Printer(info.commands.print))))
         }

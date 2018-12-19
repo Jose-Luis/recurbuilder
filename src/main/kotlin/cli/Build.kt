@@ -15,17 +15,17 @@ import node.visitors.*
 import node.visitors.modifiers.*
 
 class Build() :
-    CliktCommand(help = "Build the project") {
+    CliktCommand(help = "Build the project and its dependencies") {
     private val nodename by argument()
     private val env by option("-e", "--env").choice("int", "dev", "pre", "pro").default("dev")
     private val noTests by option("-u", "--withoutTests").flag()
-    private val cascade by option("-c", "--cascade").flag()
+    private val children by option("-c", "--children").flag()
     private val force by option("-f", "--forceAll").flag()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
     override fun run() {
         val info = Info(infoFile)
         val buildCommand = info.commands.build.plus(" -Denv=$env ".plus(if (noTests) "-DskipTests" else ""))
-        val projectFilter = if (cascade) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
+        val projectFilter = if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->
             node.acceptVisitor(
                 PreOrder(
