@@ -10,12 +10,13 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
-       url "http://nexus.aireuropa.com/repository/aireuropa-central/"
+        url "http://nexus.aireuropa.com/repository/aireuropa-central/"
     }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.44-1'
     implementation 'com.github.ajalt:clikt:1.6.0'
     implementation 'com.beust:klaxon:3.0.1'
 }

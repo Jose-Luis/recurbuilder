@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class Node(val name: String, val dir: File) {
+class Node(val name: String, val dir: File, val target: File) {
 
     private var flags: MutableMap<String, Boolean> = mutableMapOf()
 

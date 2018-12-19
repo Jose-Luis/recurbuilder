@@ -25,8 +25,7 @@ class Build() :
     override fun run() {
         val info = Info(infoFile)
         val buildCommand = info.commands.build.plus(" -Denv=$env ".plus(if (noTests) "-DskipTests" else ""))
-        val projectFilter: Predicate<Node> =
-            if (cascade) Predicate { it.dependsOn(nodename) } else Predicate { it.name == nodename }
+        val projectFilter = if (cascade) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->
             node.acceptVisitor(
                 PreOrder(

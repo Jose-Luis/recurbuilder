@@ -1,6 +1,7 @@
 {
   "repos-dir": "C:\\Users\\xx654\\Development\\Repositories",
-  "cache-file": "buildercache",
+  "cache-dir": "buildercache",
+  "backup-dir": "backups",
   "commands": {
     "build": "mvn -T 4 clean install -PskipSiebelTests",
     "update": "git pull origin development",
@@ -11,11 +12,13 @@
     {
       "name": "traces",
       "url": "aireuropa-operational-trace-parent",
+      "target": "",
       "deps": []
     },
     {
       "name": "resident",
       "url": "aireuropa-resident-reverify-parent",
+      "target": "",
       "deps": [
         "traces"
       ]
@@ -23,6 +26,7 @@
     {
       "name": "dreamliner",
       "url": "dreamliner-commons-parent",
+      "target": "",
       "deps": [
         "traces"
       ]
@@ -30,6 +34,7 @@
     {
       "name": "commons",
       "url": "aireuropa-commons-parent",
+      "target": "",
       "deps": [
         "dreamliner"
       ]
@@ -37,6 +42,7 @@
     {
       "name": "connam",
       "url": "aireuropa-connam-parent",
+      "target": "",
       "deps": [
         "dreamliner"
       ]
@@ -44,6 +50,7 @@
     {
       "name": "amadeus",
       "url": "aireuropa-amadeus-parent",
+      "target": "",
       "deps": [
         "dreamliner",
         "connam"
@@ -52,6 +59,7 @@
     {
       "name": "ticketing",
       "url": "aireuropa-ticketing-parent",
+      "target": "",
       "deps": [
         "amadeus",
         "resident",
@@ -61,6 +69,7 @@
     {
       "name": "payment",
       "url": "aireuropa-payment-parent",
+      "target": "",
       "deps": [
         "dreamliner",
         "ticketing",
@@ -70,6 +79,7 @@
     {
       "name": "availability-provider",
       "url": "aireuropa-availability-provider-parent",
+      "target": "",
       "deps": [
         "commons",
         "dreamliner"
@@ -78,6 +88,7 @@
     {
       "name": "availability",
       "url": "aireuropa-availability-parent",
+      "target": "",
       "deps": [
         "availability-provider",
         "commons"
@@ -86,6 +97,7 @@
     {
       "name": "service",
       "url": "aireuropa-service-parent",
+      "target": "aireuropa-web\\target\\aireuropaservice.war",
       "deps": [
         "availability-provider",
         "commons",
@@ -96,6 +108,7 @@
     {
       "name": "checkin",
       "url": "aireuropa-checkin-parent",
+      "target": "",
       "deps": [
         "commons",
         "payment",
@@ -105,10 +118,93 @@
     {
       "name": "backoffice",
       "url": "aireuropa-backoffice-parent",
+      "target": "",
       "deps": [
         "payment",
         "dreamliner"
       ]
+    }
+  ],
+  "servers": [
+    {
+      "name": "des01",
+      "ip": "10.153.0.44",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeadesweb01/",
+      "user": "aeauser",
+      "password": "useraea"
+    },
+    {
+      "name": "des02",
+      "ip": "10.153.0.45",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeadesweb02/",
+      "user": "aeauser",
+      "password": "useraea"
+    },
+    {
+      "name": "des03",
+      "ip": "10.153.0.10",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeadesweb03/",
+      "user": "aeauser",
+      "password": "useraea"
+    }
+  ],
+  "apps": [
+    {
+      "name": "front",
+      "dir": "webapps01",
+      "file": "aireuropa.war",
+      "port": "8080"
+    },
+    {
+      "name": "backoffice",
+      "dir": "webapps02",
+      "file": "aireuropa-backoffice.war",
+      "port": "8180"
+    },
+    {
+      "name": "oauth",
+      "dir": "webapps03",
+      "file": "aireuropaauth.war",
+      "port": "8280"
+    },
+    {
+      "name": "service",
+      "dir": "webapps04",
+      "file": "aireuropaservice.war",
+      "port": "8380"
+    },
+    {
+      "name": "checkin",
+      "dir": "webapps05",
+      "file": "aireuropacheckin2.war",
+      "port": "8480"
+    },
+    {
+      "name": "partners",
+      "dir": "webapps06",
+      "file": "ae-partnersservice.war",
+      "port": "8580"
+    },
+    {
+      "name": "availability",
+      "dir": "webapps07",
+      "file": "aireuropaavailability.war",
+      "port": "8680"
+    },
+    {
+      "name": "api-cms",
+      "dir": "webapps08",
+      "file": "aireuropaCmsApi.war",
+      "port": "8780"
+    },
+    {
+      "name": "payment",
+      "dir": "webapps09",
+      "file": "aireuropapayment.war",
+      "port": "8880"
     }
   ]
 }

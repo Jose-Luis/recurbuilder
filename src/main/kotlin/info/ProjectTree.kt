@@ -1,9 +1,10 @@
 package info
 
+import info.entities.Root
 import node.Node
 import java.io.File
 
-class ProjectTree(rootInfo: Info.Root) {
+class ProjectTree(rootInfo: Root) {
     operator fun get(nodename: String?): Node {
         return projects[nodename]!!
     }
@@ -14,7 +15,7 @@ class ProjectTree(rootInfo: Info.Root) {
         val dir = File(rootInfo.`repos-dir`)
         projects = rootInfo.projects
             .filter { dir.resolve(it.url).isAbsolute }
-            .map { Node(it.name, dir.resolve(it.url)) }
+            .map { Node(it.name, dir.resolve(it.url), dir.resolve(it.url).resolve(it.target))  }
             .associateBy { it.name }
         rootInfo.projects.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }
     }
