@@ -10,6 +10,7 @@ class Updater(val updateCommand: String) : NodeVisitor {
             if (!output.isBlank() && output != UPDATED_MSG) {
                 node.flag("dirty")
             }
+            System.out.println("===UPDATE")
             node.flag("updated")
         }
     }

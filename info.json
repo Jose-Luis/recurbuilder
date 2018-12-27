@@ -6,7 +6,7 @@
     "build": "mvn -T 4 clean install -PskipSiebelTests",
     "update": "git pull origin development",
     "print": "git status --porcelain",
-    "changes": "git diff"
+    "changes": "git diff --raw "
   },
   "projects": [
     {

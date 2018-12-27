@@ -31,10 +31,10 @@ class Build() :
                 PreOrder(
                     Composed(
                         Updater(info.commands.update),
-                        ChangeChecker(info.cache),
+                        ChangeChecker(info.cache, env),
                         if (!force) Flagged("dirty", Printer(info.commands.print)) else Printer(info.commands.print),
                         if (!force) Flagged("dirty", MavenExecuter(buildCommand)) else MavenExecuter(buildCommand),
-                        CacheUpdater(info.cache)
+                        CacheUpdater(info.cache, env)
                     )
                 )
             )
