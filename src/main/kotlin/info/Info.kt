@@ -5,6 +5,8 @@ import info.entities.App
 import info.entities.Commands
 import info.entities.Root
 import info.entities.Server
+import tools.SSHClient
+import tools.DiffCache
 import java.io.File
 
 class Info(file: File) {
@@ -12,7 +14,7 @@ class Info(file: File) {
     private val root: Root
 
     val projects: ProjectTree
-    val cache: StatusCache
+    val cache: DiffCache
     val commands: Commands
     val SSHClient: SSHClient
     val servers: Map<String, Server>
@@ -25,6 +27,6 @@ class Info(file: File) {
         servers = root.servers.associateBy { it.name }
         apps = root.apps.associateBy { it.name }
         SSHClient = SSHClient(root.`backup-dir`)
-        cache = StatusCache(root.`cache-dir`, commands.changes)
+        cache = DiffCache(root.`cache-dir`, commands.changes)
     }
 }

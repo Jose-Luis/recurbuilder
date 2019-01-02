@@ -1,9 +1,9 @@
 package node.visitors
 
-import info.StatusCache
+import tools.DiffCache
 import node.*
 
-class CacheUpdater(val cache: StatusCache, val env: String) : NodeVisitor {
+class CacheUpdater(val cache: DiffCache, val env: String) : NodeVisitor {
     override fun visit(node: Node) {
         cache.updateCache(node, env)
     }

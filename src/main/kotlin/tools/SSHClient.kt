@@ -1,4 +1,4 @@
-package info
+package tools
 
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.ChannelSftp
@@ -68,7 +68,7 @@ class SSHClient(val `backup-dir`: String) {
         val channel = session.openChannel("exec") as ChannelExec
         try {
             val now = now()
-            val filePattern = "tomcat%s/logs/catalina-%s-%s-%s.out"
+            val filePattern = "tomcat%s/logs/catalina-%s-%02d-%02d.out"
             val logfile = String.format(filePattern, app.port, now.year, now.month.value, now.dayOfMonth)
             channel.setCommand("tail -300f ".plus(server.`log-dir`).plus(logfile))
             channel.setPty(true)

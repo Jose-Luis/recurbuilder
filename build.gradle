@@ -23,7 +23,7 @@ dependencies {
 
 application {
     mainClassName = "MainKt"
-    applicationDefaultJvmArgs = ["-Dgreeting.language=en", "-Xmx2G"]
+    applicationDefaultJvmArgs = ["-Dgreeting.language=en", "-Xmx4G"]
 }
 
 compileKotlin {

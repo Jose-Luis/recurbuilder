@@ -3,10 +3,10 @@
   "cache-dir": "buildercache",
   "backup-dir": "backups",
   "commands": {
-    "build": "mvn -T 4 clean install -PskipSiebelTests",
+    "build": "mvn clean install -PskipSiebelTests",
     "update": "git pull origin development",
     "print": "git status --porcelain",
-    "changes": "git diff --raw "
+    "changes": "git --no-pager diff"
   },
   "projects": [
     {
@@ -147,6 +147,30 @@
       "ip": "10.153.0.10",
       "webapp-dir": "/var/www",
       "log-dir": "/var/www/servidores/aeadesweb03/",
+      "user": "aeauser",
+      "password": "useraea"
+    },
+    {
+      "name": "pre01",
+      "ip": "10.153.0.43",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeapreweb01/",
+      "user": "aeauser",
+      "password": "useraea"
+    },
+    {
+      "name": "pre02",
+      "ip": "10.153.0.46",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeapreweb02/",
+      "user": "aeauser",
+      "password": "useraea"
+    },
+    {
+      "name": "pre03",
+      "ip": "10.153.0.94",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeapreweb03/",
       "user": "aeauser",
       "password": "useraea"
     }
