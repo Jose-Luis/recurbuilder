@@ -14,7 +14,11 @@ class Commander() {
     }
 
     fun of(commandString: String): Commander {
-        this.commandString = commandString
+        this.commandString = when (OS()) {
+            "windows" -> "cmd /c \"$commandString\""
+            "unix", "linux" -> commandString
+            else -> throw NotImplementedError()
+        }
         return this
     }
 
@@ -24,7 +28,7 @@ class Commander() {
     }
 
     fun run(): CommandResult {
-        val processBuilder = ProcessBuilder(*("cmd /c \"$commandString\"".split("\\s".toRegex())).toTypedArray())
+        val processBuilder = ProcessBuilder(*(commandString.split("\\s".toRegex())).toTypedArray())
             .directory(workingDir)
             .inheritIO()
         val output = File.createTempFile("stdout", "txt")
@@ -35,12 +39,10 @@ class Commander() {
         }
         val process = processBuilder.start()
         process.waitFor()
-        return CommandResult(
-            output.readText(),
-            error.readText(),
-            process.exitValue()
-        )
+        return CommandResult(output.readText(), error.readText(), process.exitValue())
     }
+
+    fun OS(): String = System.getProperty("os.name").toLowerCase()
 
     class CommandResult(val output: String, val error: String, val exitCode: Int) {
         fun isOk() = exitCode == 0

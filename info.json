@@ -1,11 +1,11 @@
 {
-  "repos-dir": "C:\\Users\\xx654\\Development\\Repositories",
+  "repos-dir": "/home/xx654/Development/Repositories",
   "cache-dir": "buildercache",
   "backup-dir": "backups",
   "commands": {
     "build": "mvn clean install -PskipSiebelTests",
-    "update": "git pull origin development",
-    "print": "git status --porcelain",
+    "update": "git --no-pager pull origin development",
+    "print": "git --no-pager status --porcelain",
     "changes": "git --no-pager diff"
   },
   "projects": [
@@ -97,7 +97,7 @@
     {
       "name": "service",
       "url": "aireuropa-service-parent",
-      "target": "aireuropa-web\\target\\aireuropaservice.war",
+      "target": "aireuropa-web/target/aireuropaservice.war",
       "deps": [
         "availability-provider",
         "commons",
@@ -118,7 +118,7 @@
     {
       "name": "backoffice",
       "url": "aireuropa-backoffice-parent",
-      "target": "",
+      "target": "backoffice-web/target/aireuropa-backoffice.war",
       "deps": [
         "payment",
         "dreamliner"
@@ -173,6 +173,14 @@
       "log-dir": "/var/www/servidores/aeapreweb03/",
       "user": "aeauser",
       "password": "useraea"
+    },
+    {
+      "name": "staging",
+      "ip": "10.150.6.5",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeastaging01/",
+      "user": "aeauser",
+      "password": "usera3a"
     }
   ],
   "apps": [
