@@ -24,7 +24,7 @@ class Build() :
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
     override fun run() {
         val info = Info(infoFile)
-        val buildCommand = info.commands.build.plus(" -Denv=$env ".plus(if (noTests) "-DskipTests" else ""))
+        val buildCommand = info.commands.build.plus(if (noTests) "-DskipTests" else "").plus(" -Denv=$env")
         val projectFilter = if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->
             node.acceptVisitor(
