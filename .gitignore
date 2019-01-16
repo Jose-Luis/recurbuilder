@@ -1,6 +1,8 @@
- .gradle/
- .idea/
- build/
- errors.log
- process.log
- recurbuilder.iml
+.gradle/
+.idea/
+build/
+buildercache/
+out/
+errors.log
+process.log
+recurbuilder.iml
