@@ -19,6 +19,7 @@ class Commander() {
             "unix", "linux" -> commandString
             else -> throw NotImplementedError()
         }
+        this.commandString.trim()
         return this
     }
 
