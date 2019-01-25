@@ -13,6 +13,15 @@ import java.io.InputStreamReader
 import java.time.LocalDateTime.now
 import java.time.format.DateTimeFormatter
 
+const val COLOR_COMMAND = " | sed --unbuffered " +
+        "-e 's/\\(.*\\sFATAL.*\\)/\\o033[1;31m\\1\\o033[0;39m/' " +
+        "-e 's/\\(.*\\sERROR.*\\)/\\o033[31m\\1\\o033[39m/' " +
+        "-e 's/\\(.*\\sWARN.*\\)/\\o033[33m\\1\\o033[39m/' " +
+        "-e 's/\\(Caused\\sby\\)/\\o033[33m\\1\\o033[39m/' " +
+        "-e 's/\\(.*\\sINFO.*\\)/\\o033[32m\\1\\o033[39m/' " +
+        "-e 's/\\(.*\\sDEBUG.*\\)/\\o033[34m\\1\\o033[39m/' " +
+        "-e 's/\\(.*\\sTRACE.*\\)/\\o033[30m\\1\\o033[39m/' " +
+        "-e 's/\\(\\w*xception\\b\\)/\\o033[1;33m\\1\\o033[0;39m/'"
 class SSHClient(val `backup-dir`: String) {
 
     fun backup(server: Server, app: App) {
@@ -61,7 +70,7 @@ class SSHClient(val `backup-dir`: String) {
         })
     }
 
-    fun showLog(server: Server, app: App) {
+    fun showLog(server: Server, app: App, regex: String?) {
         val session = createSession(server)
         session.connect(15000)
         session.serverAliveInterval = 15000
@@ -70,7 +79,11 @@ class SSHClient(val `backup-dir`: String) {
             val now = now()
             val filePattern = "tomcat%s/logs/catalina-%s-%02d-%02d.out"
             val logfile = String.format(filePattern, app.port, now.year, now.month.value, now.dayOfMonth)
-            channel.setCommand("tail -300f ".plus(server.`log-dir`).plus(logfile))
+            var commandString = "tail -300f ".plus(server.`log-dir`).plus(logfile).plus(COLOR_COMMAND)
+            if (regex != null && !regex.isBlank()) {
+               commandString = commandString.plus(" | grep ").plus(regex.replace(" ", "\\ "))
+            }
+            channel.setCommand(commandString)
             channel.setPty(true)
             channel.connect()
             val bufferedReader = BufferedReader(InputStreamReader(channel.inputStream));

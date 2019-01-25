@@ -17,6 +17,7 @@ class Builploy() :
     private val server by argument()
     private val noTests by option("-u", "--withoutTests").flag()
     private val force by option("-f", "--forceAll").flag()
+    private val regex by option("-r", "--regex")
     private val noBackup by option("-n", "--no-backups").flag()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
     override fun run() {
@@ -27,7 +28,7 @@ class Builploy() :
         }
         Builder(nodename, env, noTests, false, force, infoFile).build()
         Deployer(nodename, server, noBackup, infoFile).deploy()
-        Logger(nodename, server, infoFile).log()
+        Logger(nodename, server, regex, infoFile).log()
     }
 }
 

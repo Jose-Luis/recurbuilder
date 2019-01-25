@@ -15,11 +15,10 @@ class Commander() {
 
     fun of(commandString: String): Commander {
         this.commandString = when (OS()) {
-            "windows" -> "cmd /c \"$commandString\""
-            "unix", "linux" -> commandString
+            "windows" -> "cmd /c \"${commandString.trim()}\""
+            "unix", "linux" -> commandString.trim()
             else -> throw NotImplementedError()
         }
-        this.commandString.trim()
         return this
     }
 

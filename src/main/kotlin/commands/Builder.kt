@@ -21,7 +21,7 @@ class Builder
 
     fun build(): Unit {
         val info = Info(infoFile)
-        val buildCommand = info.commands.build.plus(if (noTests) "-DskipTests" else "").plus(" -Denv=$env")
+        val buildCommand = info.commands.build.plus(if (noTests) " -DskipTests" else "").plus(" -Denv=$env")
         val projectFilter =
             if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->

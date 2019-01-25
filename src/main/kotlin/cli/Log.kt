@@ -15,5 +15,6 @@ class Log :
     private val projectname by argument()
     private val server by argument()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
-    override fun run() = Logger(projectname, server, infoFile).log()
+    private val regex by option("-r", "--regex")
+    override fun run() = Logger(projectname, server, regex, infoFile).log()
 }
