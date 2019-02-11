@@ -21,7 +21,9 @@ const val COLOR_COMMAND = " | sed --unbuffered " +
         "-e 's/\\(.*\\sINFO.*\\)/\\o033[32m\\1\\o033[39m/' " +
         "-e 's/\\(.*\\sDEBUG.*\\)/\\o033[34m\\1\\o033[39m/' " +
         "-e 's/\\(.*\\sTRACE.*\\)/\\o033[30m\\1\\o033[39m/' " +
-        "-e 's/\\(\\w*xception\\b\\)/\\o033[1;33m\\1\\o033[0;39m/'"
+        "-e 's/\\(.*at\\scom\\.globalia.*\\)/\\o033[35m\\1\\o033[39m/' " +
+        "-e 's/\\(\\w*\\.java:[0-9]*\\)/\\o033[1;36m\\1\\o033[39m/' " +
+        "-e 's/\\([A-Z]\\w*xception\\b\\)/\\o033[1;33m\\1\\o033[0;39m/'"
 class SSHClient(val `backup-dir`: String) {
 
     fun backup(server: Server, app: App) {

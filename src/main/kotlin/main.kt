@@ -7,6 +7,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     Changes(),
     Deploy(),
     Download(),
+    Execute(),
     Log()
 ).main(args)
 

@@ -11,15 +11,15 @@ import java.util.function.Predicate
 
 class Builder
     (
-    val nodename: String,
-    val env: String,
-    val noTests: Boolean,
-    val children: Boolean,
-    val force: Boolean,
+    private val nodename: String,
+    private val env: String,
+    private val noTests: Boolean,
+    private val children: Boolean,
+    private val force: Boolean,
     val infoFile: File
 ) {
 
-    fun build(): Unit {
+    fun build() {
         val info = Info(infoFile)
         val buildCommand = info.commands.build.plus(if (noTests) " -DskipTests" else "").plus(" -Denv=$env")
         val projectFilter =
