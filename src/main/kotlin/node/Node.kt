@@ -1,16 +1,25 @@
 package node
 
+import info.entities.Project
+import info.entities.Root
 import node.visitors.NodeVisitor
 import java.io.File
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class Node(val name: String, val dir: File, val target: File) {
+class Node(private val project: Project, root: Root) {
 
     private var flags: MutableMap<String, Boolean> = mutableMapOf()
 
     var deps: List<Node> = emptyList()
+
+    val name = project.name
+    val remote = project.remote
+    val dir = File(root.`repos-dir`).resolve(project.url)
+    val target = dir.resolve(project.target)
+
+    fun isDownloaded() = dir.isAbsolute
 
     private val lock: Lock = ReentrantLock()
 

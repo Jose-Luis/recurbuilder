@@ -6,17 +6,16 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class DiffCache(path: String, val changeCommand: String) {
+class DiffCache(val path: File, val changeCommand: String) {
 
-    private val cacheDir: File = File(path).absoluteFile
     private val lock: Lock = ReentrantLock()
 
     init {
-        if (!cacheDir.isDirectory) cacheDir.mkdir()
+        if (!path.isDirectory) path.mkdir()
     }
 
     private fun getCacheFile(nodename: String, env: String): File {
-        val cacheEnvDir = cacheDir.resolve(env)
+        val cacheEnvDir = path.resolve(env)
         if (!cacheEnvDir.isDirectory) cacheEnvDir.mkdir()
         val cacheFile = cacheEnvDir.resolve(nodename)
         if (!cacheFile.isFile) cacheFile.createNewFile()
@@ -31,5 +30,5 @@ class DiffCache(path: String, val changeCommand: String) {
         lock.withLock { getCacheFile(node.name, env).writeText(getCacheInfo(node)) }
     }
 
-    private fun getCacheInfo(node: Node) = node.name + ":" + Commander().of(changeCommand).onDir(node.dir).run().output
+    private fun getCacheInfo(node: Node) = node.name + ":" + Commander().of(changeCommand).param("URL", node.remote).onDir(node.dir).run().output
 }

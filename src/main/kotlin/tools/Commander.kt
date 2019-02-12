@@ -6,6 +6,7 @@ import java.io.File
 class Commander() {
     private lateinit var commandString: String
     private lateinit var workingDir: File
+    private var params: MutableMap<String, String> = HashMap()
     private var verbose = false
 
     fun onDir(workingDir: File): Commander {
@@ -28,6 +29,7 @@ class Commander() {
     }
 
     fun run(): CommandResult {
+        params.entries.forEach { commandString.replace("$".plus(it.key), it.value) }
         val processBuilder = ProcessBuilder(*commandString.split(" ").toTypedArray())
             .directory(workingDir)
             .inheritIO()
@@ -43,6 +45,11 @@ class Commander() {
     }
 
     fun OS(): String = System.getProperty("os.name").toLowerCase()
+
+    fun param(k: String, env: String): Commander {
+        params[k] = env
+        return this
+    }
 
     class CommandResult(val output: String, val error: String, val exitCode: Int) {
         fun isOk() = exitCode == 0

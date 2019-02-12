@@ -4,5 +4,7 @@ data class Commands(
     val build: String,
     val update: String,
     val print: String,
-    val changes: String
+    val changes: String,
+    val `remote-changes`: String,
+    val deploy: String
 )

@@ -9,14 +9,11 @@ class ProjectTree(rootInfo: Root) {
         return projects[nodename]!!
     }
 
-    private val projects: Map<String, Node>
+    private val projects: Map<String, Node> = rootInfo.projects
+        .map { Node(it, rootInfo) }
+        .associateBy { it.name }
 
     init {
-        val dir = File(rootInfo.`repos-dir`)
-        projects = rootInfo.projects
-            .filter { dir.resolve(it.url).isAbsolute }
-            .map { Node(it.name, dir.resolve(it.url), dir.resolve(it.url).resolve(it.target))  }
-            .associateBy { it.name }
         rootInfo.projects.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }
     }
 

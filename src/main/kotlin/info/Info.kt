@@ -13,8 +13,9 @@ class Info(file: File) {
 
     private val root: Root
 
+    val workspace: File
     val projects: ProjectTree
-    val cache: DiffCache
+    val cacheDir: File
     val commands: Commands
     val SSHClient: SSHClient
     val servers: Map<String, Server>
@@ -24,9 +25,10 @@ class Info(file: File) {
         root = Klaxon().parse<Root>(file.inputStream())!!
         projects = ProjectTree(root)
         commands = root.commands
+        workspace = File(root.`workspace-dir`).absoluteFile
         servers = root.servers.associateBy { it.name }
         apps = root.apps.associateBy { it.name }
         SSHClient = SSHClient(root.`backup-dir`)
-        cache = DiffCache(root.`cache-dir`, commands.changes)
+        cacheDir = File(root.`cache-dir`).absoluteFile
     }
 }

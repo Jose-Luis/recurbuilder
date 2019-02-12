@@ -8,6 +8,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     Deploy(),
     Download(),
     Execute(),
+    TreeDeploy(),
     Log()
 ).main(args)
 
