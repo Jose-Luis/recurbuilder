@@ -16,9 +16,8 @@ class Commander() {
 
     fun of(commandString: String): Commander {
         this.commandString = when (OS()) {
-            "windows" -> "cmd /c \"${commandString.trim()}\""
             "unix", "linux" -> commandString.trim()
-            else -> throw NotImplementedError()
+            else -> "cmd /c \"${commandString.trim()}\""
         }
         return this
     }
@@ -29,7 +28,8 @@ class Commander() {
     }
 
     fun run(): CommandResult {
-        params.entries.forEach { commandString.replace("$".plus(it.key), it.value) }
+        params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
+        println("EXECUTING --->  ".plus(commandString))
         val processBuilder = ProcessBuilder(*commandString.split(" ").toTypedArray())
             .directory(workingDir)
             .inheritIO()

@@ -22,7 +22,7 @@ class Changes() :
         val info = Info(infoFile)
         val filter = if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { filter.test(it) }.parallelStream().forEach { node ->
-            node.acceptVisitor(PreOrder(Composed(Printer(info.commands.print))))
+            node.acceptVisitor(PreOrder(Composed(RepoStatusPrinter(info.commands.print))))
         }
     }
 }

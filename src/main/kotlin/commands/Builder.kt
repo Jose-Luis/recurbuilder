@@ -30,7 +30,7 @@ class Builder
                 node.acceptVisitor(
                     PreOrder(
                         Composed(
-                            Printer(info.commands.print),
+                            RepoStatusPrinter(info.commands.print),
                             Updater(info.commands.update),
                             ChangeChecker(info.cacheDir, info.commands.changes, env),
                             if (!force) Flagged("dirty", MavenExecuter(buildCommand)) else MavenExecuter(buildCommand),

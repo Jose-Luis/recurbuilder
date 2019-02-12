@@ -15,6 +15,7 @@ class TreeDeployer
     (
     private val nodename: String,
     private val env: String,
+    private val branch: String,
     val infoFile: File
 ) {
 
@@ -27,14 +28,15 @@ class TreeDeployer
             node.acceptVisitor(
                 PreOrder(
                     Composed(
-                        ChangeChecker(info.cacheDir, info.commands.`remote-changes`, env),
+                        ChangeChecker(info.cacheDir, info.commands.`remote-changes`, env.plus("-").plus(branch)),
                         Flagged( "dirty", NotFlagged( "deployed",
                                 Composed(
+                                    Printer(info.commands.print),
                                     Cloner(workingDir),
-                                    Deployer(workingDir, info.commands.deploy, env),
+                                    Deployer(workingDir, info.commands.deploy, branch, env),
                                     Cleaner(workingDir)
                         ))),
-                        CacheUpdater(info.cacheDir, info.commands.`remote-changes`, env)
+                        CacheUpdater(info.cacheDir, info.commands.`remote-changes`, env.plus("-").plus(branch))
                     )
                 )
             )

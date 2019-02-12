@@ -22,13 +22,17 @@ class DiffCache(val path: File, val changeCommand: String) {
         return cacheFile
     }
 
-    fun isChange(node: Node, env: String): Boolean {
-        return lock.withLock { getCacheFile(node.name, env).readText() != getCacheInfo(node) }
+    fun isChange(node: Node, branch: String, env: String): Boolean {
+        return lock.withLock { getCacheFile(node.name, env).readText() != getCacheInfo(node, branch) }
     }
 
     fun updateCache(node: Node, env: String) {
         lock.withLock { getCacheFile(node.name, env).writeText(getCacheInfo(node)) }
     }
 
-    private fun getCacheInfo(node: Node) = node.name + ":" + Commander().of(changeCommand).param("URL", node.remote).onDir(node.dir).run().output
+    private fun getCacheInfo(node: Node, branch: String) = node.name + ":" +
+            Commander().of(changeCommand).onDir(path)
+                    .param("URL", node.remote)
+                    .param("BRANCH", branch)
+                    .run().output
 }
