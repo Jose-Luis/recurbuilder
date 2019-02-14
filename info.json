@@ -3,7 +3,7 @@
   "cache-dir": "buildercache",
   "backup-dir": "backups",
   "commands": {
-    "build": "mvn clean install -PskipSiebelTests -DskipTests=$SKIP_TESTS -Denv=$ENV",
+    "build": "mvn clean install -PskipSiebelTests $SKIP_TESTS -Denv=$ENV ",
     "update": "git --no-pager pull origin development",
     "print": "git --no-pager status --porcelain",
     "changes": "git --no-pager diff",

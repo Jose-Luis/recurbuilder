@@ -11,6 +11,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     NexusTreeDeploy(),
     RemoteDeploy(),
     CloneAll(),
+    Clone(),
     Log()
 ).main(args)
 
