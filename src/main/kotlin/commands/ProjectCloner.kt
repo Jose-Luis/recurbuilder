@@ -1,10 +1,11 @@
 package commands
 
 import info.Info
+import node.Node
 import node.visitors.*
 
-class ProjectCloner(val info: Info, val project: String) {
+class ProjectCloner(val info: Info, val project: Node) {
     fun clone() {
-        info.projects[project].acceptVisitor(Cloner(info))
+        project.acceptVisitor(Cloner(info))
     }
 }

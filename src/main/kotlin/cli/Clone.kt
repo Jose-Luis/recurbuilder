@@ -17,7 +17,8 @@ class Clone() :
 
     override fun run() {
         val info = Info(infoFile, workspace)
-        ProjectCloner(info, projecname).clone()
+        info.projects[projecname]
+        ProjectCloner(info, info.projects[projecname]).clone()
     }
 }
 
