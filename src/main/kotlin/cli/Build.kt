@@ -16,13 +16,13 @@ class Build() :
     private val nodename by argument()
     private val env by option("-e", "--env").choice("int", "dev", "pre", "pro").default("dev")
     private val skipTests by option("-u", "--withoutTests").flag()
-    private val children by option("-c", "--children").flag()
     private val force by option("-f", "--forceAll").flag()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val mode by option("-m", "--mode").choice("deps", "cascade", "alone").default("deps")
     private val workspace by option("-w", "--workspace").file(exists = true)
     override fun run() {
         val info = Info(infoFile, workspace)
-        Builder(nodename, env, skipTests, children, force, info).build()
+        Builder(nodename, env, skipTests, force, mode, info).build()
     }
 }
 

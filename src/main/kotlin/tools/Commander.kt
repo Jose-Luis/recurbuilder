@@ -29,7 +29,8 @@ class Commander() {
 
     fun run(): CommandResult {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
-        val processBuilder = ProcessBuilder(*commandString.split(" ").toTypedArray())
+        val command = commandString.trim().replace("\\s+".toRegex(), " ")
+        val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray())
             .directory(workingDir)
             .inheritIO()
         val output = File.createTempFile("stdout", "txt")

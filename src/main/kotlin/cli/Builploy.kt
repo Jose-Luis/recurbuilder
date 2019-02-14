@@ -29,7 +29,7 @@ class Builploy() :
             "pre01", "pre02", "pre03" -> "pre"
             else -> throw NotImplementedError()
         }
-        Builder(nodename, env, skipTests, false, force, info).build()
+        Builder(nodename, env, skipTests, force, "deps", info).build()
         LocalDeployer(nodename, server, noBackup, info).deploy()
         Logger(nodename, server, regex, info).log()
     }

@@ -2,10 +2,9 @@ package commands
 
 import info.Info
 import node.visitors.*
-import node.visitors.NexusDeployer
 import node.visitors.modifiers.Composed
-import node.visitors.modifiers.Flagged
-import node.visitors.modifiers.NotFlagged
+import node.visitors.modifiers.Once
+import node.visitors.modifiers.OnlyIf
 import node.visitors.modifiers.PreOrder
 
 class TreeDeployer
@@ -16,30 +15,25 @@ class TreeDeployer
     private val branch: String,
     val info: Info
 ) {
-    fun deployTree() {
-        info.projects.all().filter { it.dependsOn(nodename) }.parallelStream().forEach { node ->
-            node.acceptVisitor(
-                PreOrder(
-                    Composed(
-                        RemoteChangeChecker(info, branch, env),
-                        Flagged(
-                            "dirty",
-                            NotFlagged(
-                                "deployed",
-                                Composed(
-                                    Printer(),
-                                    Cloner(info),
-                                    BranchSwitcher(info, branch),
-                                    MavenBuilder(info, skipTests, env),
-                                    NexusDeployer(info, env),
-                                    Cleaner(info)
-                                )
-                            )
-                        ),
-                        RemoteCacheUpdater(info, branch, env)
-                    )
-                )
-            )
-        }
+
+    private val cloneBuildAndDeploy = Composed(
+        Printer(),
+        Cloner(info),
+        BranchSwitcher(info, branch),
+        MavenBuilder(info, skipTests, env),
+        NexusDeployer(info, env),
+        Cleaner(info)
+    )
+
+    private val projectDeployer = Once(
+        Composed(
+            RemoteChangeChecker(info, branch, env),
+            OnlyIf("dirty", cloneBuildAndDeploy),
+            RemoteCacheUpdater(info, branch, env)
+        )
+    )
+
+    fun deployTree() = info.projects.all().filter { it.dependsOn(nodename) }.parallelStream().forEach { node ->
+        node.acceptVisitor(PreOrder(Once(projectDeployer)))
     }
 }

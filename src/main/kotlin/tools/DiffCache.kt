@@ -1,17 +1,18 @@
 package tools
 
+import info.Info
 import node.Node
 import java.io.File
-import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class DiffCache(path: File, subfolder: String, val changeCommand: String) {
+class DiffCache(val info: Info, subfolder: String, val cacheReader: CacheReader) {
 
     private val lock = ReentrantLock()
     private val folder: File
 
     init {
+        val path = info.cacheDir
         if (!path.isDirectory) path.mkdir()
         folder = path.resolve(subfolder)
         if (!folder.isDirectory) folder.mkdir()
@@ -28,16 +29,11 @@ class DiffCache(path: File, subfolder: String, val changeCommand: String) {
     }
 
     fun isChange(node: Node, branch: String, env: String): Boolean {
-        return lock.withLock { getCacheFile(node.name, branch, env).readText() != getCacheInfo(node, branch) }
+        return lock.withLock { getCacheFile(node.name, branch, env).readText() != cacheReader.readCache() }
     }
 
     fun updateCache(node: Node, branch: String, env: String) {
-        lock.withLock { getCacheFile(node.name, branch, env).writeText(getCacheInfo(node, branch)) }
+        lock.withLock { getCacheFile(node.name, branch, env).writeText(cacheReader.readCache()) }
     }
-
-    private fun getCacheInfo(node: Node, branch: String) = node.name + ":" +
-            Commander().of(changeCommand).onDir(folder)
-                .param("URL", node.remote)
-                .param("BRANCH", branch)
-                .run().output
 }
+

@@ -20,7 +20,7 @@ class Node(project: Project) {
     val dir = File(project.url)
     val target = dir.resolve(project.target)
 
-    fun isDownloaded(workspace: File) = workspace.resolve(dir).isAbsolute
+    fun isDownloaded(workspace: File) = workspace.resolve(dir).exists()
 
     private val lock: Lock = ReentrantLock()
 

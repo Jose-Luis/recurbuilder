@@ -4,37 +4,40 @@ import info.Info
 import node.Node
 import node.visitors.*
 import node.visitors.modifiers.Composed
-import node.visitors.modifiers.Flagged
+import node.visitors.modifiers.Downloaded
+import node.visitors.modifiers.OnlyIf
+import node.visitors.modifiers.Once
 import node.visitors.modifiers.PreOrder
-import java.util.function.Predicate
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 class Builder
     (
     private val nodename: String,
     private val env: String,
     private val skipTests: Boolean,
-    private val children: Boolean,
     private val force: Boolean,
+    private val mode: String,
     val info: Info
 ) {
+    private val projectBuilder = Composed(
+        Printer(),
+        RepoStatusPrinter(info),
+        Updater(info),
+        LocalChangeChecker(info, env),
+        if (force) MavenBuilder(info, skipTests, env) else OnlyIf("dirty", MavenBuilder(info, skipTests, env)),
+        LocalCacheUpdater(info, env)
+    )
+
+    private fun buildInPreOrder(node: Node) = node.acceptVisitor(PreOrder(Downloaded(info, Once(projectBuilder))))
+    private fun buildAlone(node: Node) = node.acceptVisitor(Downloaded(info, Once(projectBuilder)))
+
     fun build() {
-        val mavenBuilder = MavenBuilder(info, skipTests, env)
-        val projectFilter =
-            if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
-        info.projects.all().filter { it.isDownloaded(info.workspace) }
-            .filter { projectFilter.test(it) }.parallelStream()
-            .forEach { node ->
-                node.acceptVisitor(
-                    PreOrder(
-                        Composed(
-                            RepoStatusPrinter(info),
-                            Updater(info),
-                            LocalChangeChecker(info, env),
-                            if (!force) Flagged("dirty", mavenBuilder) else mavenBuilder,
-                            LocalCacheUpdater(info, env)
-                        )
-                    )
-                )
-            }
+        val projects = info.projects.all()
+        when (mode) {
+            "deps" -> projects.filter { it.name == nodename }.parallelStream().forEach { buildInPreOrder(it) }
+            "cascade" -> projects.filter { it.dependsOn(nodename) }.parallelStream().forEach { buildInPreOrder(it) }
+            "alone" -> projects.filter { it.name == nodename }.parallelStream().forEach { buildAlone(it) }
+            else -> throw NotImplementedException()
+        }
     }
 }
