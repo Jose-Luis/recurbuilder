@@ -8,10 +8,9 @@ class Logger(
     val projectname: String,
     val server: String,
     val regex: String?,
-    val infoFile: File
+    val info: Info
 ) {
     fun log() {
-        val info = Info(infoFile)
         val server = info.servers[server]!!
         val app = info.apps[projectname]!!
         System.out.println("===LOG")

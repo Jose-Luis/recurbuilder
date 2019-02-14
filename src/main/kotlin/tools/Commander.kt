@@ -29,7 +29,6 @@ class Commander() {
 
     fun run(): CommandResult {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
-        println("EXECUTING --->  ".plus(commandString))
         val processBuilder = ProcessBuilder(*commandString.split(" ").toTypedArray())
             .directory(workingDir)
             .inheritIO()

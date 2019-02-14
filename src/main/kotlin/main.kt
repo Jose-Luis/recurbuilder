@@ -5,10 +5,12 @@ fun main(args: Array<String>) = Tool().subcommands(
     Build(),
     Builploy(),
     Changes(),
-    Deploy(),
+    LocalDeploy(),
     Download(),
     Execute(),
-    TreeDeploy(),
+    NexusTreeDeploy(),
+    RemoteDeploy(),
+    CloneAll(),
     Log()
 ).main(args)
 

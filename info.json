@@ -1,15 +1,15 @@
 {
-  "workspace-dir": "/home/xx654/Development/Workspace",
-  "repos-dir": "/home/xx654/Development/Repositories",
+  "workspace-dir": "/home/xx654/Development/Repositories",
   "cache-dir": "buildercache",
   "backup-dir": "backups",
   "commands": {
-    "build": "mvn clean install -PskipSiebelTests",
+    "build": "mvn clean install -PskipSiebelTests -DskipTests=$SKIP_TESTS -Denv=$ENV",
     "update": "git --no-pager pull origin development",
     "print": "git --no-pager status --porcelain",
-    "changes": "git ls-remote $URL | grep refs/heads/development",
-    "remote-changes": "git ls-remote $URL | grep refs/heads/development",
-    "deploy": "mvn deploy -Denv=$ENV"
+    "changes": "git --no-pager diff",
+    "remote-changes": "git ls-remote $URL | grep refs/heads/$BRANCH",
+    "nexus-deploy": "mvn deploy -Denv=$ENV",
+    "clone": "git clone $REMOTE_URL $DESTINATION_DIR"
   },
   "projects": [
     {

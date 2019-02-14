@@ -6,10 +6,9 @@ import java.io.File
 class Downloader(
     val app: String,
     val server: String,
-    val infoFile: File
+    val info: Info
 ) {
     fun download() {
-        val info = Info(infoFile)
         val server = info.servers[server]!!
         val app = info.apps[app]!!
         System.out.println("===BACKUP")

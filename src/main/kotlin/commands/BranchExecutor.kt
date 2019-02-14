@@ -14,10 +14,9 @@ class BranchExecutor
     private val nodename: String,
     val children: Boolean,
     val command: String,
-    val infoFile: File
+    val info: Info
 ) {
     fun execute() {
-        val info = Info(infoFile)
         val projectFilter =
             if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
         info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->

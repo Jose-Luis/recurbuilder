@@ -9,9 +9,7 @@ class ProjectTree(rootInfo: Root) {
         return projects[nodename]!!
     }
 
-    private val projects: Map<String, Node> = rootInfo.projects
-        .map { Node(it, rootInfo) }
-        .associateBy { it.name }
+    private val projects: Map<String, Node> = rootInfo.projects.map { Node(it) }.associateBy { it.name }
 
     init {
         rootInfo.projects.forEach { projects[it.name]!!.deps = it.deps.map(projects::getValue) }

@@ -6,5 +6,7 @@ data class Commands(
     val print: String,
     val changes: String,
     val `remote-changes`: String,
-    val deploy: String
+    val `nexus-deploy`: String,
+    val clone: String
+
 )

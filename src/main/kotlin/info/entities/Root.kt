@@ -2,7 +2,6 @@ package info.entities
 
 data class Root(
     val `workspace-dir`: String,
-    val `repos-dir`: String,
     val `cache-dir`: String,
     val `backup-dir`: String,
     val commands: Commands,

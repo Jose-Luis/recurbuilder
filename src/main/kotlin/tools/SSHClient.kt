@@ -24,6 +24,7 @@ const val COLOR_COMMAND = " | sed --unbuffered " +
         "-e 's/\\(.*at\\scom\\.globalia.*\\)/\\o033[35m\\1\\o033[39m/' " +
         "-e 's/\\(\\w*\\.java:[0-9]*\\)/\\o033[1;36m\\1\\o033[39m/' " +
         "-e 's/\\([A-Z]\\w*xception\\b\\)/\\o033[1;33m\\1\\o033[0;39m/'"
+
 class SSHClient(val `backup-dir`: String) {
 
     fun backup(server: Server, app: App) {
@@ -63,10 +64,10 @@ class SSHClient(val `backup-dir`: String) {
         })
     }
 
-    fun upload(server: Server, app: App, project: Node) {
+    fun upload(server: Server, app: App, project: Node, workspace: File) {
         doInSftpChannel(server, action = { channel ->
             channel.put(
-                project.target.inputStream(),
+                workspace.resolve(project.target).inputStream(),
                 server.`webapp-dir`.plus("/").plus(app.dir).plus("/").plus(app.file)
             )
         })
@@ -83,7 +84,7 @@ class SSHClient(val `backup-dir`: String) {
             val logfile = String.format(filePattern, app.port, now.year, now.month.value, now.dayOfMonth)
             var commandString = "tail -300f ".plus(server.`log-dir`).plus(logfile).plus(COLOR_COMMAND)
             if (regex != null && !regex.isBlank()) {
-               commandString = commandString.plus(" | grep ").plus(regex.replace(" ", "\\ "))
+                commandString = commandString.plus(" | grep ").plus(regex.replace(" ", "\\ "))
             }
             channel.setCommand(commandString)
             channel.setPty(true)

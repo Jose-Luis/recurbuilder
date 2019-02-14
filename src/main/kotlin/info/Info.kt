@@ -9,13 +9,13 @@ import tools.SSHClient
 import tools.DiffCache
 import java.io.File
 
-class Info(file: File) {
+class Info(file: File, workspace: File?) {
 
     private val root: Root
 
-    val workspace: File
     val projects: ProjectTree
     val cacheDir: File
+    val workspace: File
     val commands: Commands
     val SSHClient: SSHClient
     val servers: Map<String, Server>
@@ -25,7 +25,7 @@ class Info(file: File) {
         root = Klaxon().parse<Root>(file.inputStream())!!
         projects = ProjectTree(root)
         commands = root.commands
-        workspace = File(root.`workspace-dir`).absoluteFile
+        this.workspace = workspace?: File(root.`workspace-dir`)
         servers = root.servers.associateBy { it.name }
         apps = root.apps.associateBy { it.name }
         SSHClient = SSHClient(root.`backup-dir`)

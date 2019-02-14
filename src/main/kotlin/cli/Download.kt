@@ -14,5 +14,10 @@ class Download :
     private val app by argument()
     private val server by argument()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
-    override fun run() = Downloader(app, server, infoFile).download()
+    private val workspace by option("-w", "--workspace").file(exists = true)
+
+    override fun run() {
+        val info = Info(infoFile, workspace)
+        Downloader(app, server, info).download()
+    }
 }

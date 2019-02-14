@@ -1,5 +1,6 @@
 package node
 
+import info.Info
 import info.entities.Project
 import info.entities.Root
 import node.visitors.NodeVisitor
@@ -8,7 +9,7 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class Node(private val project: Project, root: Root) {
+class Node(project: Project) {
 
     private var flags: MutableMap<String, Boolean> = mutableMapOf()
 
@@ -16,10 +17,10 @@ class Node(private val project: Project, root: Root) {
 
     val name = project.name
     val remote = project.remote
-    val dir = File(root.`repos-dir`).resolve(project.url)
+    val dir = File(project.url)
     val target = dir.resolve(project.target)
 
-    fun isDownloaded() = dir.isAbsolute
+    fun isDownloaded(workspace: File) = workspace.resolve(dir).isAbsolute
 
     private val lock: Lock = ReentrantLock()
 
