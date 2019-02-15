@@ -2,7 +2,8 @@ package info
 
 import info.entities.Root
 import node.Node
-import java.io.File
+import node.visitors.NodeVisitor
+import java.util.function.Predicate
 
 class ProjectTree(rootInfo: Root) {
     operator fun get(nodename: String?): Node {
@@ -16,4 +17,14 @@ class ProjectTree(rootInfo: Root) {
     }
 
     fun all(): Collection<Node> = projects.values
+
+    fun visit(condition: (Node) -> Boolean, visitor: NodeVisitor) {
+        projects.values.filter { condition.invoke(it) }.parallelStream()
+            .forEach { node -> node.acceptVisitor(visitor) }
+    }
+
+    fun visitNode(nodename: String, visitor: NodeVisitor) {
+        visit({ node -> node.name == nodename }, visitor)
+    }
+
 }

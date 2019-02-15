@@ -16,12 +16,10 @@ class BranchExecutor
     val info: Info
 ) {
     fun execute() {
-        val projectFilter =
-            if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
-        info.projects.all().filter { projectFilter.test(it) }.parallelStream().forEach { node ->
-            node.acceptVisitor(
-                PreOrder(Once(Composed(Printer(), Executor(info, command))))
-            )
-        }
+        info.projects.visit(
+            if (children) { node -> node.dependsOn(nodename) } else { node -> node.name == nodename },
+            PreOrder(Printer(), Executor(info, command))
+        )
     }
+
 }

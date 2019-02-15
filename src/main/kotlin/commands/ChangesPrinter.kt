@@ -14,9 +14,9 @@ class ChangesPrinter
     val info: Info
 ) {
     fun printChanges() {
-        val filter = if (children) Predicate { it.dependsOn(nodename) } else Predicate<Node> { it.name == nodename }
-        info.projects.all().filter { filter.test(it) }.parallelStream().forEach { node ->
-            node.acceptVisitor(PreOrder(Composed(RepoStatusPrinter(info))))
-        }
+        info.projects.visit(
+            if (children) { node -> node.dependsOn(nodename) } else { node -> node.name == nodename },
+            PreOrder(RepoStatusPrinter(info))
+        )
     }
 }

@@ -25,15 +25,11 @@ class TreeDeployer
         Cleaner(info)
     )
 
-    private val projectDeployer = Once(
-        Composed(
-            RemoteChangeChecker(info, branch, env),
-            OnlyIf("dirty", cloneBuildAndDeploy),
-            RemoteCacheUpdater(info, branch, env)
-        )
+    private val treeDeployer = PreOrder(
+        RemoteChangeChecker(info, branch, env),
+        OnlyIf("dirty", cloneBuildAndDeploy),
+        RemoteCacheUpdater(info, branch, env)
     )
 
-    fun deployTree() = info.projects.all().filter { it.dependsOn(nodename) }.parallelStream().forEach { node ->
-        node.acceptVisitor(PreOrder(Once(projectDeployer)))
-    }
+    fun deployTree() = info.projects.visit({ node -> node.dependsOn(nodename) }, treeDeployer)
 }
