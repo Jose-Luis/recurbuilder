@@ -41,7 +41,7 @@ class Commander() {
         }
         val process = processBuilder.start()
         process.waitFor()
-        return CommandResult(output.readText(), error.readText(), process.exitValue())
+        return CommandResult(output.readText(Charsets.UTF_8), error.readText(Charsets.UTF_8), process.exitValue())
     }
 
     fun OS(): String = System.getProperty("os.name").toLowerCase()

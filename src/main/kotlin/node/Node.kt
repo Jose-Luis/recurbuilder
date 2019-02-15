@@ -1,8 +1,6 @@
 package node
 
-import info.Info
 import info.entities.Project
-import info.entities.Root
 import node.visitors.NodeVisitor
 import java.io.File
 import java.util.concurrent.locks.Lock

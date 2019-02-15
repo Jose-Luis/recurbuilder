@@ -2,6 +2,7 @@ package commands
 
 import info.Info
 import node.Node
+import node.visitors.Printer
 import node.visitors.RepoStatusPrinter
 import node.visitors.modifiers.Composed
 import node.visitors.modifiers.PreOrder
@@ -16,7 +17,7 @@ class ChangesPrinter
     fun printChanges() {
         info.projects.visit(
             if (children) { node -> node.dependsOn(nodename) } else { node -> node.name == nodename },
-            PreOrder(RepoStatusPrinter(info))
+            PreOrder(Printer(),RepoStatusPrinter(info))
         )
     }
 }

@@ -3,6 +3,7 @@ package tools
 import info.Info
 import node.Node
 import java.io.File
+import java.nio.charset.Charset
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -33,7 +34,7 @@ class DiffCache(val info: Info, subfolder: String, val cacheReader: CacheReader)
     }
 
     fun updateCache(node: Node, branch: String, env: String) {
-        lock.withLock { getCacheFile(node.name, branch, env).writeText(cacheReader.readCache()) }
+        lock.withLock { getCacheFile(node.name, branch, env).writeText(cacheReader.readCache(), Charsets.UTF_8) }
     }
 }
 
