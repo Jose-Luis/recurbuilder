@@ -3,7 +3,6 @@ package node.visitors
 import info.Info
 import node.Node
 import tools.Commander
-import java.io.File
 
 class BranchSwitcher(val info: Info, val branch: String) : NodeVisitor {
     override fun visit(node: Node) {

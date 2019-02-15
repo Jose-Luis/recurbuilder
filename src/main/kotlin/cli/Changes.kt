@@ -8,11 +8,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import commands.ChangesPrinter
 import info.Info
-import node.Node
 import java.io.File
-import java.util.function.Predicate
-import node.visitors.*
-import node.visitors.modifiers.*
 
 class Changes() :
     CliktCommand(help = "Print the changes the project, its dependecies and childs") {

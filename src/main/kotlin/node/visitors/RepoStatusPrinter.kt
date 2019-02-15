@@ -1,8 +1,8 @@
 package node.visitors
 
 import info.Info
-import tools.Commander
 import node.Node
+import tools.Commander
 
 class RepoStatusPrinter(val info: Info) : NodeVisitor {
     override fun visit(node: Node) {

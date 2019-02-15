@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.parameters.types.file
 import commands.Logger
 import info.Info
 import java.io.File
-import kotlin.system.exitProcess
 
 class Log :
     CliktCommand(help = "Show the log of a server") {

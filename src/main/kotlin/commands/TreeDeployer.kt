@@ -1,6 +1,7 @@
 package commands
 
 import info.Info
+import node.Node.Companion.dependsOn
 import node.visitors.*
 import node.visitors.modifiers.Composed
 import node.visitors.modifiers.OnlyIf
@@ -30,5 +31,5 @@ class TreeDeployer
         RemoteCacheUpdater(info, branch, env)
     )
 
-    fun deployTree() = info.projects.visit({ node -> node.dependsOn(nodename) }, treeDeployer)
+    fun deployTree() = info.projects.visit(dependsOn(nodename)).with(treeDeployer)
 }

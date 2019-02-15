@@ -1,7 +1,6 @@
 package commands
 
 import info.Info
-import java.io.File
 
 class Downloader(
     val app: String,

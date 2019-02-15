@@ -12,6 +12,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     RemoteDeploy(),
     CloneAll(),
     Clone(),
+    Update(),
     Log()
 ).main(args)
 

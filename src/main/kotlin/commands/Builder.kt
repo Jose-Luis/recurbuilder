@@ -1,6 +1,8 @@
 package commands
 
 import info.Info
+import node.Node.Companion.dependsOn
+import node.Node.Companion.only
 import node.visitors.*
 import node.visitors.modifiers.Composed
 import node.visitors.modifiers.Downloaded
@@ -22,7 +24,6 @@ class Builder
         Composed(
             Printer(),
             RepoStatusPrinter(info),
-            Updater(info),
             LocalChangeChecker(info, env),
             if (force) MavenBuilder(info, skipTests, env) else OnlyIf("dirty", MavenBuilder(info, skipTests, env)),
             LocalCacheUpdater(info, env)
@@ -31,9 +32,9 @@ class Builder
 
     fun build() {
         when (mode) {
-            "deps" -> info.projects.visitNode(nodename, PreOrder(builder))
-            "cascade" -> info.projects.visit({ node -> node.dependsOn(nodename) }, PreOrder(builder))
-            "alone" -> info.projects.visitNode(nodename, builder)
+            "deps" -> info.projects.visit(only(nodename)).with(PreOrder(builder))
+            "cascade" -> info.projects.visit(dependsOn(nodename)).with(PreOrder(builder))
+            "alone" -> info.projects.visit(only(nodename)).with(builder)
             else -> throw NotImplementedException()
         }
     }

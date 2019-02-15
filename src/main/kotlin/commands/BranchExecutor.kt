@@ -1,12 +1,13 @@
 package commands
 
 import info.Info
-import node.Node
-import node.visitors.*
+import node.Node.Companion.dependsOn
+import node.Node.Companion.only
+import node.visitors.Executor
+import node.visitors.Printer
+import node.visitors.modifiers.Downloaded
 import node.visitors.modifiers.Composed
-import node.visitors.modifiers.Once
 import node.visitors.modifiers.PreOrder
-import java.util.function.Predicate
 
 class BranchExecutor
     (
@@ -15,11 +16,6 @@ class BranchExecutor
     val command: String,
     val info: Info
 ) {
-    fun execute() {
-        info.projects.visit(
-            if (children) { node -> node.dependsOn(nodename) } else { node -> node.name == nodename },
-            PreOrder(Printer(), Executor(info, command))
-        )
-    }
-
+    fun execute() = info.projects.visit(if (children) dependsOn(nodename) else only(nodename))
+        .with(PreOrder(Downloaded(info, Composed(Printer(), Executor(info, command)))))
 }
