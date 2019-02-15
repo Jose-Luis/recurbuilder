@@ -19,17 +19,18 @@ class Builder
     private val mode: String,
     val info: Info
 ) {
-    private val projectBuilder = Composed(
+    private val projectBuilder = Once(
+        Composed(
         Printer(),
         RepoStatusPrinter(info),
         Updater(info),
         LocalChangeChecker(info, env),
         if (force) MavenBuilder(info, skipTests, env) else OnlyIf("dirty", MavenBuilder(info, skipTests, env)),
         LocalCacheUpdater(info, env)
-    )
+    ))
 
-    private fun buildInPreOrder(node: Node) = node.acceptVisitor(PreOrder(Downloaded(info, Once(projectBuilder))))
-    private fun buildAlone(node: Node) = node.acceptVisitor(Downloaded(info, Once(projectBuilder)))
+    private fun buildInPreOrder(node: Node) = node.acceptVisitor(PreOrder(Downloaded(info, projectBuilder)))
+    private fun buildAlone(node: Node) = node.acceptVisitor(Downloaded(info, projectBuilder))
 
     fun build() {
         val projects = info.projects.all()
