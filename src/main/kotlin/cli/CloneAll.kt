@@ -15,7 +15,7 @@ class CloneAll() :
 
     override fun run() {
         val info = Info(infoFile, workspace)
-        info.projects.all().parallelStream().forEach { ProjectCloner(info, it).clone() }
+        info.projects.all().parallelStream().forEach { ProjectCloner(info, it.name).clone() }
     }
 }
 

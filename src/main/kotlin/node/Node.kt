@@ -8,6 +8,10 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 class Node(project: Project) {
+    companion object {
+        fun only(nodename: String): (Node) -> Boolean = { node -> node.name == nodename }
+        fun dependsOn(nodename: String): (Node) -> Boolean = { node -> node.dependsOn(nodename) }
+    }
 
     private var flags: MutableMap<String, Boolean> = mutableMapOf()
 
@@ -49,4 +53,5 @@ class Node(project: Project) {
     fun hasOrInheritFlag(property: String): Boolean {
         return hasFlag(property) || deps.any { it.hasOrInheritFlag(property) }
     }
+
 }

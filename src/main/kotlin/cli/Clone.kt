@@ -11,14 +11,13 @@ import java.io.File
 
 class Clone() :
     CliktCommand(help = "Clone a project in the workspace") {
-    private val projecname by argument()
+    private val projectname by argument()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
 
     override fun run() {
         val info = Info(infoFile, workspace)
-        info.projects[projecname]
-        ProjectCloner(info, info.projects[projecname]).clone()
+        ProjectCloner(info, projectname).clone()
     }
 }
 

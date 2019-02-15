@@ -6,7 +6,6 @@ import info.entities.Commands
 import info.entities.Root
 import info.entities.Server
 import tools.SSHClient
-import tools.DiffCache
 import java.io.File
 
 class Info(file: File, workspace: File?) {

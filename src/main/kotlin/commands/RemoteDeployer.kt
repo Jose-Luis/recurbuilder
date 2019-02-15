@@ -1,6 +1,7 @@
 package commands
 
 import info.Info
+import node.Node.Companion.only
 import node.visitors.*
 import node.visitors.modifiers.Composed
 
@@ -12,18 +13,19 @@ class RemoteDeployer(
     private val skipTests: Boolean,
     private val info: Info
 ) {
+
     fun deploy() {
         val server = info.servers[server]!!
         val app = info.apps[projectname]!!
-        val node = info.projects[projectname]
-        node.acceptVisitor(
-            Composed(
-                Cloner(info),
-                BranchSwitcher(info, branch),
-                MavenBuilder(info, skipTests, env),
-                ServerDeployer(server, app, info),
-                Cleaner(info)
+        info.projects.visit(only(projectname))
+            .with(
+                Composed(
+                    Cloner(info),
+                    BranchSwitcher(info, branch),
+                    MavenBuilder(info, skipTests, env),
+                    ServerDeployer(server, app, info),
+                    Cleaner(info)
+                )
             )
-        )
     }
 }

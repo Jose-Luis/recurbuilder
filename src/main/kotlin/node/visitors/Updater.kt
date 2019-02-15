@@ -1,8 +1,8 @@
 package node.visitors
 
 import info.Info
+import node.Node
 import tools.Commander
-import node.*
 
 class Updater(val info: Info) : NodeVisitor {
     private val UPDATED_MSG = "Already up to date.\n"

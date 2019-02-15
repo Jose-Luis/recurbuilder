@@ -1,9 +1,8 @@
 package commands
 
 import info.Info
+import node.Node.Companion.only
 import node.visitors.ServerDeployer
-import java.io.File
-import kotlin.system.exitProcess
 
 class LocalDeployer(
     val projectname: String,
@@ -14,10 +13,9 @@ class LocalDeployer(
     fun deploy() {
         val server = info.servers[server]!!
         val app = info.apps[projectname]!!
-        val project = info.projects[projectname]
         if (!noBackup) {
             Downloader(app.name, server.name, info).download();
         }
-        project.acceptVisitor(ServerDeployer(server, app, info))
+        info.projects.visit(only(projectname)).with(ServerDeployer(server, app, info))
     }
 }
