@@ -27,12 +27,18 @@ class Commander() {
         return this
     }
 
-    fun run(): CommandResult {
+    private fun resolveCommandString(): Array<String> {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
         val command = commandString.trim().replace("\\s+".toRegex(), " ")
-        val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray())
-            .directory(workingDir)
-            .inheritIO()
+        return command.split(" ").toTypedArray()
+    }
+
+    fun start() {
+        ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO().start()
+    }
+
+    fun run(): CommandResult {
+        val processBuilder = ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO()
         val output = File.createTempFile("stdout", "txt")
         val error = File.createTempFile("stderr", "txt")
         if (!verbose) {
