@@ -21,7 +21,7 @@ class NexusTreeDeploy() :
     private val env by option("-e", "--env").choice("int", "dev", "pre", "pro").default("dev")
     private val branch by option("-b", "--branch").required()
     private val skipTests by option("-u", "--withoutTests").flag()
-    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
 
     override fun run() {

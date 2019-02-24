@@ -15,7 +15,7 @@ class Execute :
     private val nodename by argument()
     private val command by option("-c", "--command")
     private val cascasde by option("-d", "--cascade").flag()
-    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
     override fun run() {
         val info = Info(infoFile, workspace)
