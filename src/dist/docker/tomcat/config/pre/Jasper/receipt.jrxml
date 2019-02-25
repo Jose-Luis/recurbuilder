@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receipt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9789c267-8ffa-4c6b-8b60-2e49d64fb547">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="TEXT_PROPERTIES" class="java.lang.String"/>
+	<parameter name="RECEIPT_NUMBER" class="java.lang.String"/>
+	<parameter name="RECEIPT_DATE" class="java.util.Date"/>
+	<parameter name="RECEIPT_NAME" class="java.lang.String"/>
+	<parameter name="RECEIPT_NIF" class="java.lang.String"/>
+	<parameter name="RECEIPT_CURRENCY" class="java.lang.String"/>
+	<parameter name="RECEIPT_TOTAL" class="java.math.BigDecimal"/>
+	<parameter name="RECEIPT_PAYMENT_TYPE" class="java.lang.String"/>
+	<parameter name="RECEIPT_PLACE" class="java.lang.String"/>
+	<parameter name="RECEIPT_PAYMENT_DATE" class="java.util.Date"/>
+	<field name="documentType" class="java.lang.String"/>
+	<field name="documentNumber" class="java.lang.String"/>
+	<field name="units" class="java.lang.Integer"/>
+	<field name="booking" class="java.lang.String"/>
+	<field name="amount" class="java.math.BigDecimal"/>
+	<field name="currency" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="locator" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="180" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="228" height="45" uuid="20f94d5f-fc21-4826-94c9-7f95c4395400"/>
+				<imageExpression><![CDATA["com/globalia/aireuropa/booking/mail/services/logoAE.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="50" width="250" height="20" uuid="365ca1ee-6011-432a-a1d1-87b784cf12e3"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.cif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="50" width="250" height="20" uuid="4aabe93f-3185-4b30-8d8b-9d83d4c3b2d9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="70" width="250" height="20" uuid="f1534042-1771-42c5-9a54-d1ef122666ad"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="90" width="53" height="20" uuid="7b02d914-d693-4278-ab34-193763ef0157"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.header.treatment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="110" width="100" height="20" uuid="a711d2f4-ce47-42c5-8adb-05b8e50d6944"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.header.id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="130" width="507" height="20" uuid="49b2df96-3a11-4858-a651-4fc05fcc1e07"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="160" width="750" height="20" uuid="c2eb0225-4bf0-4cdc-a4bd-f0377f3b9631"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.payment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="670" y="50" width="100" height="20" uuid="3808baf0-429b-4202-8c7f-87e58e176eb0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="670" y="70" width="100" height="20" uuid="feaada1b-0fc6-4077-a740-45b625898459"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="90" width="498" height="20" uuid="d97b0c99-c3f5-4e53-9fec-a5494d357378"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="110" width="498" height="20" uuid="fa2b8d36-215b-4986-90be-99a749be119d"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Dialog" size="11" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_NIF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="620" y="130" width="100" height="20" uuid="66835c3d-ca4f-400a-b0f0-23ad71f591c4"/>
+				<box topPadding="2" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###,###,###,##0.00").format($P{RECEIPT_TOTAL});]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="720" y="130" width="80" height="20" uuid="8686fd8c-805b-4dc1-8111-3128482522a0"/>
+				<box topPadding="2" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_CURRENCY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="100" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="810fae0d-c200-4b1d-a515-83bf15649ad3"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.document.type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="150" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="bec33c5b-b780-4d05-887b-e0e7889eb843"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.document.number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="70" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="d70190b7-5544-4b4b-aac5-a0aca51ed5f6"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="200" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="41478ac5-829d-4e7d-99f1-de1983096d04"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.booking}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="0" width="100" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="bffd612e-6cb7-45e3-bebd-77bf5f646b58"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="0" width="100" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="db8eca05-2d9f-41e6-8c75-ab472159c0e2"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="720" y="0" width="80" height="40" backcolor="rgba(0, 255, 255, 0.09803922)" uuid="1cc6ffad-a003-44f1-abb7-8117178a6d93"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.currency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="100" height="20" uuid="0abd32c1-d3f6-4ad3-8947-4186b6bc6f36"/>
+				<box topPadding="0" leftPadding="3">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{documentType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="100" y="0" width="150" height="20" uuid="bfd1ac39-fd5d-4fa1-9223-2dc611961e78"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{documentNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="250" y="0" width="70" height="20" uuid="8013b26a-9937-41b9-8ee1-0510240ec459"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{units}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="320" y="0" width="200" height="20" uuid="d8a959dc-dc51-4a7b-85f3-018019584219"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{locator}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="520" y="0" width="100" height="20" uuid="f8b661a0-3307-40c9-8e48-876f295d7089"/>
+				<box topPadding="0" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###,###,###,##0.00").format($F{amount});]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="620" y="0" width="100" height="20" uuid="e891898e-4cf5-47d5-84e2-43cc1a1de510"/>
+				<box topPadding="0" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.text.DecimalFormat("###,###,###,###,##0.00").format($F{total});]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="720" y="0" width="80" height="20" uuid="99566d97-a88e-4323-ad32-62eb56a10244"/>
+				<box topPadding="0">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{currency}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="120" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="65" width="300" height="20" uuid="c0901ed1-4c39-478d-bd4a-ce1b6bafc4e5"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.footer.date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="25" width="300" height="20" uuid="93edf9bb-59a3-45df-9fdd-16f6e1e93ded"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.footer.payment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="45" width="300" height="20" uuid="047ae268-facc-4175-b48f-21b1a1d1a91f"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.payment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="750" height="20" uuid="79f83bc0-66e8-4664-8214-5b07880ee431"/>
+				<box topPadding="2" leftPadding="2"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.receipt.footer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="25" width="200" height="20" uuid="136551e0-4790-4b36-8041-8c766a1b051e"/>
+				<box topPadding="2" leftPadding="2">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_PAYMENT_TYPE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="45" width="200" height="20" uuid="c68594ed-4aaa-4add-b504-8d4e6fa5214e"/>
+				<box topPadding="2" leftPadding="2">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_PLACE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="320" y="65" width="200" height="20" uuid="e92f144e-53de-4666-aeea-3ac13d3eae2d"/>
+				<box topPadding="2" leftPadding="2">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RECEIPT_PAYMENT_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

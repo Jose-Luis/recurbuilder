@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loyaltyCard" pageWidth="780" pageHeight="842" columnWidth="708" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="0" resourceBundle="templates/loyaltyCard/loyaltyCard" uuid="34137f88-b9c9-44fa-b180-1398a238146c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Loyalty Card Data Source"/>
+	<subDataset name="dataset1" uuid="276d598d-e740-4b55-a336-9a54a37b8a87"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="name" class="java.lang.String"/>
+	<field name="qrCode" class="java.io.InputStream"/>
+	<field name="frequentFlyer" class="java.lang.String"/>
+    <field name="frequentFlyerLevel" class="com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType"/>
+	<detail>
+		<band height="688">
+			<rectangle>
+				<reportElement mode="Transparent" x="-6" y="-13" width="694" height="687" uuid="4cb58098-3c70-4a9d-867b-0ba2a838a649"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="28" y="23" width="193" height="31" uuid="c43d0830-5cd7-4717-a120-3af3e804446c"/>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/ux.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="70" width="295" height="48" uuid="c43d0830-5cd7-4717-a120-3af3e804447c">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SUMA)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/suma.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="70" width="295" height="48" uuid="c43d0830-5cd7-4717-a120-3af3e804447c">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SILVER)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/silver.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="70" width="295" height="48" uuid="c43d0830-5cd7-4717-a120-3af3e804447c">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && ($F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM) || $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM_FOR_LIFE))]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/platinum.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="70" width="295" height="48" uuid="c43d0830-5cd7-4717-a120-3af3e804447c">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.GOLD)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/gold.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="20" y="139" width="668" height="234" uuid="c43d0830-5cd7-4717-a120-3af3e804484d">
+                     <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SUMA)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/bg_suma.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="20" y="139" width="668" height="234" uuid="c43d0830-5cd7-4717-a120-3af3e804484d">
+                     <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SILVER)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/bg_silver.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="20" y="139" width="668" height="234" uuid="c43d0830-5cd7-4717-a120-3af3e804484d">
+                     <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && ($F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM) || $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM_FOR_LIFE))]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/bg_platinum.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="20" y="139" width="668" height="234" uuid="c43d0830-5cd7-4717-a120-3af3e804484d">
+                     <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.GOLD)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/bg_gold.png"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="324" width="277" height="15" forecolor="#FFFFFF" uuid="ce9c5b31-b1d6-47a3-8b86-352e5dae5cc5"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="339" width="277" height="15" forecolor="#FFFFFF" uuid="ce9c5b31-b1d6-47a3-8b86-352e5dae5ee3"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{frequentFlyer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="215" width="280" height="72" forecolor="#FFFFFF" uuid="0c3c83be-20ca-44ec-b3a9-977afc210922">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.loyalty.card.info}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="450" y="390" width="140" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804485e">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SUMA)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_b1.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="450" y="390" width="140" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804485e">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SILVER)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_s1.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="450" y="390" width="140" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804485e">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && ($F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM) || $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM_FOR_LIFE))]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_p1.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="450" y="390" width="140" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804485e">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.GOLD)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_g1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="420" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804412f">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SUMA)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_b2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="420" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804412f">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SILVER)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_s2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="420" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804412f">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && ($F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM) || $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM_FOR_LIFE))]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_p2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="0" y="420" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804412f">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.GOLD)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_g2.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="640" y="90" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804417a">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SUMA)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_b2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="640" y="90" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804417a">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.SILVER)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_s2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="640" y="90" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804417a">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && ($F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM) || $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.PLATINUM_FOR_LIFE))]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_p2.png"]]></imageExpression>
+			</image>
+            <image>
+				<reportElement x="640" y="90" width="70" height="20" uuid="c43d0830-5cd7-4717-a120-3af3e804417a">
+                    <printWhenExpression><![CDATA[$F{frequentFlyerLevel} != null && $F{frequentFlyerLevel}.equals(com.globalia.aireuropa.loyalty.LoyaltyFrequentFlyerType.GOLD)]]></printWhenExpression>
+                </reportElement>
+				<imageExpression><![CDATA["templates/loyaltyCard/images/lineas_g2.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="366" y="325" width="140" height="23" forecolor="#FFFFFF" uuid="357fe18a-d8b5-4d8b-b47f-7a242961992f">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{report.loyalty.card.qr.info}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RealSize" hAlign="Center" vAlign="Middle">
+				<reportElement mode="Transparent" x="580" y="288" width="60" height="60" uuid="3a07c656-e599-43e2-9d45-e2c65b468029"/>
+				<imageExpression><![CDATA[$F{qrCode}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
