@@ -29,11 +29,13 @@ class ServiceStarter :
         services.forEach { downloadAndBuild(it, env, info) }
         val dockerManager = DockerManager(info)
         Runtime.getRuntime().addShutdownHook(Thread {
-            if (hasProxy) dockerManager.stopProxy()
             dockerManager.stopServices(servicesJoint)
+            if (hasProxy) dockerManager.stopProxy()
         })
-        if (hasProxy) dockerManager.startProxy(proxiedServer!!, servicesUrl)
         dockerManager.startServices(env, servicesJoint)
+        if (hasProxy) dockerManager.startProxy(proxiedServer!!, servicesUrl)
+        dockerManager.readBuffer()
+
     }
 
     private fun downloadAndBuild(nodeName: String, env: String, info: Info) {

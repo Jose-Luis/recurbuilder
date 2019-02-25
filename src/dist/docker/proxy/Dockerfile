@@ -6,4 +6,4 @@ RUN npm install express-http-proxy
 COPY proxy.js /app
 
 EXPOSE 3000
-CMD ["node", "proxy.js"]
+CMD ["node", "/app/proxy.js"]

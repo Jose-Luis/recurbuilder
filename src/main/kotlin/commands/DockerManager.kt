@@ -12,12 +12,11 @@ class DockerManager(val info: Info) {
         val dockerOutput = dockerFolder.resolve("servers.log")
         const val NETWORK_NAME = "aeanet"
         const val BUILD_PROXY = "docker build proxy -t proxy"
-        const val RUN_PROXY = "docker run --rm -p 80:3000 -e SERVICES='\$SERVICES' -e AEA_ENV=\$AEA_ENV " +
+        const val RUN_PROXY = "docker run --rm -p 80:3000 -e SERVICES=\$SERVICES -e AEA_ENV=\$AEA_ENV " +
                 "--add-host \$URL:\$IP --net $NETWORK_NAME --name proxy proxy"
         const val BUILD_SERVICE = "docker build tomcat -t tomcat"
-        const val RUN_SERVICE =
-            "docker run --rm -p \$PORT:8080 -e WAR_URL=\$WAR_URL -e CONFIG_FOLDER=\$CONFIG_FOLDER " +
-                    "--net $NETWORK_NAME --name \$SERVICE tomcat"
+        const val RUN_SERVICE = "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 " +
+                "-v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/config --net $NETWORK_NAME --name \$SERVICE tomcat"
     }
 
     private fun isNetCreated() =
@@ -31,7 +30,7 @@ class DockerManager(val info: Info) {
         if (!isNetCreated()) createNetwork()
         Commander().of(RUN_PROXY).onDir(dockerFolder)
             .param("SERVICES", services)
-            .param("AEA_ENV", getEnv(serverName))
+            .param("AEA_ENV", getServerPrefix(serverName))
             .param("URL", getUrl(serverName))
             .param("IP", server!!.ip)
             .start(dockerOutput)
@@ -39,23 +38,30 @@ class DockerManager(val info: Info) {
 
     private fun startService(env: String, service: String) {
         val project = info.projects[service]
+        val warname = info.workspace.resolve(project.target).name
+        val servicename = info.workspace.resolve(project.target).nameWithoutExtension
         Commander().of(BUILD_SERVICE).onDir(dockerFolder).verbose(true).run()
         Commander().of(RUN_SERVICE).onDir(dockerFolder)
-            .param("CONFIG_FOLDER", "config/$env")
-            .param("WAR_URL", info.workspace.resolve(project.dir).resolve(project.target).path)
+            .param("CONFIG_FOLDER", dockerFolder.resolve("tomcat").resolve("config/$env").absolutePath)
+            .param("WAR_URL", info.workspace.resolve(project.target).absolutePath)
+            .param("WAR_FILE", warname)
             .param("PORT", info.apps.getValue(service).port)
-            .param("SERVICE", service)
+            .param("DEBUG_PORT", (Integer.valueOf(info.apps.getValue(service).port) + 1000).toString())
+            .param("SERVICE", servicename)
             .start(dockerOutput)
     }
 
     fun startServices(env: String, services: String) {
         if (!isNetCreated()) createNetwork()
         services.trim().split("+").forEach { startService(env, it.trim()) }
+    }
+
+    fun readBuffer() {
         val bufferedReader = BufferedReader(FileReader(dockerOutput));
         while (true) {
             if (bufferedReader.ready()) {
                 val line = bufferedReader.readLine();
-                System.out.println(color(line));
+                System.out.println(line);
             }
         }
     }
