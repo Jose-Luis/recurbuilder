@@ -10,7 +10,7 @@ import java.io.File
 
 class CloneAll() :
     CliktCommand(help = "Print the changes the project, its dependecies and childs") {
-    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
 
     override fun run() {

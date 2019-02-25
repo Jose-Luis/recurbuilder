@@ -15,7 +15,7 @@ class LocalDeploy :
     private val projectname by argument()
     private val server by argument()
     private val noBackup by option("-n", "--no-backups").flag()
-    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
 
     override fun run() {

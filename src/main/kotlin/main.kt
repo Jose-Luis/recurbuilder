@@ -13,6 +13,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     CloneAll(),
     Clone(),
     Update(),
+    ServiceStarter(),
     Log()
 ).main(args)
 

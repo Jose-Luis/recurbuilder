@@ -18,7 +18,7 @@ class RemoteDeploy :
     private val projectname by argument()
     private val server by argument()
     private val branch by option("-b", "--branch").default("development")
-    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("info.json"))
+    private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val skipTests by option("-u", "--withoutTests").flag()
     private val workspace by option("-w", "--workspace").file(exists = true)
 

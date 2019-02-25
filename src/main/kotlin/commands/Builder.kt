@@ -8,7 +8,6 @@ import node.visitors.modifiers.Composed
 import node.visitors.modifiers.Downloaded
 import node.visitors.modifiers.OnlyIf
 import node.visitors.modifiers.PreOrder
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 class Builder
     (
@@ -35,7 +34,7 @@ class Builder
             "deps" -> info.projects.visit(only(nodename)).with(PreOrder(builder))
             "cascade" -> info.projects.visit(dependsOn(nodename)).with(PreOrder(builder))
             "alone" -> info.projects.visit(only(nodename)).with(builder)
-            else -> throw NotImplementedException()
+            else -> throw NotImplementedError()
         }
     }
 }

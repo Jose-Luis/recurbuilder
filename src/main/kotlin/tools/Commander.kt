@@ -6,11 +6,17 @@ import java.io.File
 class Commander() {
     private lateinit var commandString: String
     private lateinit var workingDir: File
+    private lateinit var output: File
     private var params: MutableMap<String, String> = HashMap()
     private var verbose = false
 
     fun onDir(workingDir: File): Commander {
         this.workingDir = workingDir
+        return this
+    }
+
+    fun output(outputFile: File): Commander {
+        this.output = outputFile
         return this
     }
 
@@ -27,12 +33,20 @@ class Commander() {
         return this
     }
 
-    fun run(): CommandResult {
+    private fun resolveCommandString(): Array<String> {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
         val command = commandString.trim().replace("\\s+".toRegex(), " ")
-        val processBuilder = ProcessBuilder(*command.split(" ").toTypedArray())
-            .directory(workingDir)
-            .inheritIO()
+        return command.split(" ").toTypedArray()
+    }
+
+    fun start() = ProcessBuilder(*resolveCommandString()).directory(workingDir).start()
+
+    fun start(output: File) =
+        ProcessBuilder(*resolveCommandString()).inheritIO().directory(workingDir)
+            .redirectError(output).redirectOutput(output).start()
+
+    fun run(): CommandResult {
+        val processBuilder = ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO()
         val output = File.createTempFile("stdout", "txt")
         val error = File.createTempFile("stderr", "txt")
         if (!verbose) {
