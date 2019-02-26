@@ -9,7 +9,8 @@ ENV TZ Europe/Madrid
 ENV LANG es_ES.utf-8
 ENV LANGUAGE es_ES
 ENV LC_ALL es_ES.utf-8
-ENV LC_NUMERIC=es_ES
+ENV LC_NUMERIC es_ES
+ENV FORCE_COLOR 1
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
