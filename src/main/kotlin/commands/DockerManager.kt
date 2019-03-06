@@ -12,11 +12,9 @@ class DockerManager(val info: Info) {
         val dockerOutput = dockerFolder.resolve("servers.log")
         const val NETWORK_NAME = "aeanet"
         const val BUILD_PROXY = "docker build proxy -t proxy"
-        const val RUN_PROXY = "docker run --rm -p 80:3000 -e SERVICES=\$SERVICES -e AEA_ENV=\$AEA_ENV " +
-                "--add-host \$URL:\$IP --net $NETWORK_NAME --name proxy proxy"
         const val BUILD_SERVICE = "docker build tomcat -t tomcat"
-        const val RUN_SERVICE = "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 " +
-                "-v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/config --net $NETWORK_NAME --name \$SERVICE tomcat"
+        const val RUN_PROXY = "docker run --rm -p 80:3000 -e REDIRECTIONS=\$REDIRECTIONS --add-host \$URL:\$IP --net $NETWORK_NAME --name proxy proxy"
+        const val RUN_SERVICE = "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 -v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/config --net $NETWORK_NAME --name \$SERVICE tomcat"
     }
 
     private fun isNetCreated() =
@@ -24,13 +22,12 @@ class DockerManager(val info: Info) {
 
     private fun createNetwork() = Commander().of("docker network create $NETWORK_NAME").onDir(dockerFolder).run()
 
-    fun startProxy(serverName: String, services: String) {
+    fun startProxy(serverName: String, redirections: String) {
         val server = info.servers[serverName]
         Commander().of(BUILD_PROXY).onDir(dockerFolder).verbose(true).run()
         if (!isNetCreated()) createNetwork()
         Commander().of(RUN_PROXY).onDir(dockerFolder)
-            .param("SERVICES", services)
-            .param("AEA_ENV", getServerPrefix(serverName))
+            .param("REDIRECTIONS", redirections)
             .param("URL", getUrl(serverName))
             .param("IP", server!!.ip)
             .start(dockerOutput)
@@ -83,20 +80,6 @@ class DockerManager(val info: Info) {
                 Commander().of("docker stop $it").onDir(dockerFolder).verbose(true).run()
             }
         }
-    }
-
-    fun color(logLine: String): String {
-        return logLine
-            .replace("(.* FATAL.*)".toRegex(), "\\\\033[1;31m\\\\$1\\\\033[0;39m")
-            .replace("(.* ERROR.*)".toRegex(), "\\\\033[31m\\\\$1\\\\033[39m")
-            .replace("(.* WARN.*)".toRegex(), "\\\\033[33m\\\\$1\\\\033[39m")
-            .replace("(Caused by)".toRegex(), "\\\\033[33m\\\\$1\\\\033[39m")
-            .replace("(.* INFO.*)".toRegex(), "\\033[32m" + "$1" + "\\033[0m")
-            .replace("(.* DEBUG.*)".toRegex(), "\\\\033[34m\\\\$1\\\\033[39m")
-            .replace("(.* TRACE.*)".toRegex(), "\\\\033[30m\\\\$1\\\\033[39m")
-            .replace("(.*at com.globalia.*)".toRegex(), "\\\\033[35m\\\\$1\\\\033[39m")
-            .replace("(\\w*.java:[0-9]*)".toRegex(), "\\\\033[1;36m\\\\$1\\\\033[39m")
-            .replace("([A-Z]\\w*xception\\b)".toRegex(), "\\\\033[1;33m\\\\$1\\\\033[0;39m")
     }
 }
 
