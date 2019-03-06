@@ -27,10 +27,8 @@ class ServiceStarter :
         val info = Info(infoFile, workspace)
         val hasProxy = !proxiedServer.isNullOrBlank()
         val servicesJoint = services.joinToString("+")
-        val servicesRedirections =
-            services.map { info.workspace.resolve(info.projects[it].target).nameWithoutExtension }
-                .joinToString("+") { "$it->$it:8080" }
-        val allRedirections = redirections.joinToString("+") + "+" + servicesRedirections
+        val allRedirections = services.map { info.workspace.resolve(info.projects[it].target).nameWithoutExtension }
+            .map { "$it->$it:8080" }.union(this.redirections).joinToString("+") { it.trim() }
         val env = if (hasProxy) getEnv(proxiedServer!!) else env ?: "dev"
         println("=== Using profile -> ${env.toUpperCase()}")
         services.forEach { downloadAndBuild(it, env, info) }
