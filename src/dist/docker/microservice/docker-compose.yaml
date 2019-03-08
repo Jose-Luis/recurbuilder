@@ -1,0 +1,41 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      aeanet:
+        aliases:
+          - preil.aireuropa.com
+          - desol.aireuropa.com
+  issuance-office:
+    image: nexus.aireuropa.com:5000/aireuropa/web-aireuropa-issuance-office-rest:1.0.0-SNAPSHOT-20190307095150-c524950
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    environment:
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+    networks:
+      - aeanet
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=useraea
+      - POSTGRES_USER=aeauser
+      - POSTGRES_DB=issuance_office
+    ports:
+      - "5432:5432"
+    networks:
+      aeanet:
+        aliases:
+          - aeapgsdes
+          - aeapgspre
+networks:
+  aeanet:
+    external: true
+
+
