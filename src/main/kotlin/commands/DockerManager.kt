@@ -13,7 +13,7 @@ class DockerManager(val info: Info) {
         const val NETWORK_NAME = "aeanet"
         const val BUILD_PROXY = "docker build proxy -t proxy"
         const val BUILD_SERVICE = "docker build tomcat -t tomcat"
-        const val RUN_PROXY = "docker run --rm -p 80:3000 -e REDIRECTIONS=\$REDIRECTIONS --add-host \$URL:\$IP --net $NETWORK_NAME --name proxy proxy"
+        const val RUN_PROXY = "docker run --rm --net-alias pre.aireuropa.com --net-alias des.aireuropa.com -p 80:80 -e REDIRECTIONS=\$REDIRECTIONS --add-host \$URL:\$IP --net $NETWORK_NAME --name proxy proxy"
         const val RUN_SERVICE = "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 -v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/config --net $NETWORK_NAME --name \$SERVICE tomcat"
     }
 

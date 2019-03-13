@@ -8,8 +8,9 @@ services:
     networks:
       aeanet:
         aliases:
-          - preil.aireuropa.com
-          - desol.aireuropa.com
+          - pre.ms.aireuropa.com
+    depends_on:
+      - db
   issuance-office:
     image: nexus.aireuropa.com:5000/aireuropa/web-aireuropa-issuance-office-rest:1.0.0-SNAPSHOT-20190307095150-c524950
     depends_on:

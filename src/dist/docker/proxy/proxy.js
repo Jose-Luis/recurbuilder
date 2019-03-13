@@ -22,7 +22,7 @@ redirections.split("+").forEach(redirection => {
 
 app.all('*', (req, res, next ) => { proxy(req.get('host'), proxyOptions(colors.white))(req, res, next)});
 
-app.listen(3000, function () {
+app.listen(80, function () {
     console.log("Proxy started!!");
 });
 
