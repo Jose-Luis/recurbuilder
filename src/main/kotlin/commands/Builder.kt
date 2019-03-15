@@ -24,12 +24,13 @@ class Builder
             Printer(),
             RepoStatusPrinter(info),
             LocalChangeChecker(info, env),
-            if (force) MavenBuilder(info, skipTests, env) else OnlyIf("dirty", MavenBuilder(info, skipTests, env)),
+            OnlyIf("dirty", MavenBuilder(info, skipTests, env)),
             LocalCacheUpdater(info, env)
         )
     )
 
     fun build() {
+        if (force) info.cacheDir.deleteRecursively()
         when (mode) {
             "deps" -> info.projects.visit(only(nodename)).with(PreOrder(builder))
             "cascade" -> info.projects.visit(dependsOn(nodename)).with(PreOrder(builder))

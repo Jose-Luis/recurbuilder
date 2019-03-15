@@ -11,14 +11,12 @@ import info.Info
 import java.io.File
 
 class Execute :
-    CliktCommand(help = "Execute a system command on a dependency branch on preorder") {
-    private val nodename by argument()
+    CliktCommand(help = "Execute a system command on all project folders downloadeall project folders downloadedd") {
     private val command by option("-c", "--command")
-    private val cascasde by option("-d", "--cascade").flag()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
     override fun run() {
         val info = Info(infoFile, workspace)
-        BranchExecutor(nodename, cascasde, command!!, info).execute()
+        BranchExecutor(command!!, info).execute()
     }
 }
