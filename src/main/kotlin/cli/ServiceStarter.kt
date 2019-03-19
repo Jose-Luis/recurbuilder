@@ -39,6 +39,7 @@ class ServiceStarter :
         })
         dockerManager.startServices(env, servicesJoint)
         if (hasProxy) dockerManager.startProxy(proxiedServer!!, allRedirections)
+        dockerManager.startProxies()
         dockerManager.readBuffer()
 
     }

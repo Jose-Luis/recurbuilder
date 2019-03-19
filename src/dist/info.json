@@ -2,6 +2,7 @@
   "workspace-dir": "/home/xx654/Development/Workspace",
   "cache-dir": "buildercache",
   "backup-dir": "backups",
+  "proxy-connection": "http://xx654:2ool0d1$e4@10.83.0.130:8080",
   "commands": {
     "build": "mvn clean install -PskipSiebelTests $SKIP_TESTS -Denv=$ENV ",
     "update": "git --no-pager pull origin development",
@@ -15,14 +16,14 @@
     {
       "name": "traces",
       "url": "aireuropa-operational-trace-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-operational-trace-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-operational-trace-parent.git",
       "target": "",
       "deps": []
     },
     {
       "name": "resident",
       "url": "aireuropa-resident-reverify-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-resident-reverify-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-resident-reverify-parent.git",
       "target": "",
       "deps": [
         "traces"
@@ -31,7 +32,7 @@
     {
       "name": "dreamliner",
       "url": "dreamliner-commons-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/dreamliner-commons-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/dreamliner-commons-parent.git",
       "target": "",
       "deps": [
         "traces"
@@ -40,7 +41,7 @@
     {
       "name": "commons",
       "url": "aireuropa-commons-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-commons-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-commons-parent.git",
       "target": "",
       "deps": [
         "dreamliner"
@@ -49,7 +50,7 @@
     {
       "name": "connam",
       "url": "aireuropa-connam-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-connam-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-connam-parent.git",
       "target": "",
       "deps": [
         "dreamliner"
@@ -58,7 +59,7 @@
     {
       "name": "amadeus",
       "url": "aireuropa-amadeus-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-amadeus-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-amadeus-parent.git",
       "target": "",
       "deps": [
         "dreamliner",
@@ -68,7 +69,7 @@
     {
       "name": "ticketing",
       "url": "aireuropa-ticketing-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-ticketing-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-ticketing-parent.git",
       "target": "",
       "deps": [
         "amadeus",
@@ -79,7 +80,7 @@
     {
       "name": "payment",
       "url": "aireuropa-payment-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-payment-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-payment-parent.git",
       "target": "",
       "deps": [
         "dreamliner",
@@ -90,7 +91,7 @@
     {
       "name": "availability-provider",
       "url": "aireuropa-availability-provider-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-availability-provider-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-availability-provider-parent.git",
       "target": "",
       "deps": [
         "commons",
@@ -100,7 +101,7 @@
     {
       "name": "availability",
       "url": "aireuropa-availability-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-availability-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-availability-parent.git",
       "target": "",
       "deps": [
         "availability-provider",
@@ -110,7 +111,7 @@
     {
       "name": "service",
       "url": "aireuropa-service-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/am/aireuropa-service-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/am/aireuropa-service-parent.git",
       "target": "aireuropa-web/target/aireuropaservice.war",
       "deps": [
         "availability-provider",
@@ -122,7 +123,7 @@
     {
       "name": "checkin",
       "url": "aireuropa-checkin-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-checkin-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-checkin-parent.git",
       "target": "",
       "deps": [
         "commons",
@@ -133,7 +134,7 @@
     {
       "name": "backoffice",
       "url": "aireuropa-backoffice-parent",
-      "remote": "http://xx654:2001Odisea@192.168.151.131/stash/scm/ae/aireuropa-backoffice-parent.git",
+      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-backoffice-parent.git",
       "target": "backoffice-web/target/aireuropa-backoffice.war",
       "deps": [
         "payment",
@@ -253,6 +254,20 @@
       "dir": "webapps09",
       "file": "aireuropapayment.war",
       "port": "8880"
+    }
+  ],
+  "proxies": [
+    {
+      "name": "siebel-proxy",
+      "url": "siebelpre02.globalia.com",
+      "ip": "192.168.153.142",
+      "port": "7777"
+    },
+    {
+      "name": "altea-proxy",
+      "url": "test.webservices.amadeus.com",
+      "ip": "82.150.226.67",
+      "port": "443"
     }
   ]
 }
