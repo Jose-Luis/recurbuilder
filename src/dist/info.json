@@ -124,7 +124,7 @@
       "name": "checkin",
       "url": "aireuropa-checkin-parent",
       "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-checkin-parent.git",
-      "target": "",
+      "target": "checkin-web/target/aireuropacheckin2.war",
       "deps": [
         "commons",
         "payment",
@@ -265,9 +265,15 @@
     },
     {
       "name": "altea-proxy",
-      "url": "test.webservices.amadeus.com",
-      "ip": "82.150.226.67",
-      "port": "443"
+      "url": "production.webservices.1a.amadeus.net",
+      "ip": "194.76.166.67",
+      "port": "80"
+    },
+    {
+      "name": "connam-proxy",
+      "url": "10.153.0.24",
+      "ip": "10.153.0.24",
+      "port": "8180"
     }
   ]
 }

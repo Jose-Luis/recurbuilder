@@ -19,7 +19,7 @@ app.all('*',  proxy(process.env.SERVICE_URL + ":" + process.env.SERVICE_PORT, {
 }));
 
 app.listen(process.env.SERVICE_PORT, function () {
-    console.log("Proxy started!!");
+    console.log("Proxy started!!, listening on port " + process.env.SERVICE_PORT);
 });
 
 

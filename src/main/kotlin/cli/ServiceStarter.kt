@@ -36,6 +36,7 @@ class ServiceStarter :
         Runtime.getRuntime().addShutdownHook(Thread {
             dockerManager.stopServices(servicesJoint)
             if (hasProxy) dockerManager.stopProxy()
+            dockerManager.stopProxies()
         })
         dockerManager.startServices(env, servicesJoint)
         if (hasProxy) dockerManager.startProxy(proxiedServer!!, allRedirections)
