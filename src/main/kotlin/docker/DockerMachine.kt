@@ -37,7 +37,7 @@ enum class DockerMachine(private val imageName: String, private val runCommand: 
         val containers = Commander().of("docker container ls").onDir(dockerFolder).run().output
         if (containers.contains(machineName)) {
             println("===STOPPING $machineName")
-            Commander().of("docker stop $machineName").onDir(dockerFolder).verbose(true).run()
+            Commander().of("docker kill $machineName").onDir(dockerFolder).verbose(true).run()
         }
     }
 
