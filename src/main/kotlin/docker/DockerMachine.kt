@@ -10,7 +10,7 @@ enum class DockerMachine(private val imageName: String, private val runCommand: 
     ),
     SERVICE(
         "tomcat",
-        "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 -v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/config --net \$NETWORK_NAME --name \$NAME tomcat"
+        "docker run --rm -p \$PORT:8080 -p \$DEBUG_PORT:8000 -v \$WAR_URL:/usr/local/tomcat/webapps/\$WAR_FILE -v \$CONFIG_FOLDER:/var/config --net \$NETWORK_NAME --name \$NAME tomcat"
     ),
     INTERNAL_PROXY(
         "internal-proxy",

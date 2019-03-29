@@ -11,6 +11,7 @@ class Info(file: File, workspace: File?) {
 
     val projects: ProjectTree
     val cacheDir: File
+    val propertiesRepo: String
     val workspace: File
     val proxyConnection: String
     val commands: Commands
@@ -30,5 +31,6 @@ class Info(file: File, workspace: File?) {
         proxies = root.proxies.associateBy { it.name }
         SSHClient = SSHClient(root.`backup-dir`)
         cacheDir = File(root.`cache-dir`).absoluteFile
+        propertiesRepo = root.`properties-repo`
     }
 }

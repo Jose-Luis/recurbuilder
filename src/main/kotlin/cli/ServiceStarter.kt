@@ -18,7 +18,7 @@ import java.io.File
 class ServiceStarter :
     CliktCommand(help = "Compile the projects and start it on a proxiedServer", name = "up") {
     private val services by argument().multiple()
-    private val env by option("-e", "--environment").choice("dev", "pre")
+    private val env by option("-e", "--environment").choice("dev", "pre", "pro")
     private val proxiedServer by option("-p", "--proxy")
     private val redirections by option("-r", "--redirections").multiple()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
@@ -40,7 +40,7 @@ class ServiceStarter :
         })
         dockerManager.startServices(env, servicesJoint)
         if (hasProxy) dockerManager.startProxy(proxiedServer!!, allRedirections)
-        dockerManager.startProxies()
+        dockerManager.startProxies(env)
         dockerManager.readBuffer()
 
     }

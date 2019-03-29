@@ -2,6 +2,7 @@ package commands
 
 import docker.DockerMachine
 import info.Info
+import tools.Commander
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -26,9 +27,10 @@ class DockerManager(val info: Info) {
         val project = info.projects[service]
         val warname = info.workspace.resolve(project.target).name
         val servicename = info.workspace.resolve(project.target).nameWithoutExtension
+        val configFolder = dockerFolder.resolve("tomcat").resolve("config")
         DockerMachine.SERVICE.start(
             servicename, mapOf(
-                "CONFIG_FOLDER" to dockerFolder.resolve("tomcat").resolve("config/$env").absolutePath,
+                "CONFIG_FOLDER" to configFolder.resolve(getConfigFolder(env)).absolutePath,
                 "WAR_URL" to info.workspace.resolve(project.target).absolutePath,
                 "WAR_FILE" to warname,
                 "PORT" to info.apps.getValue(service).port,
@@ -37,17 +39,20 @@ class DockerManager(val info: Info) {
         )
     }
 
-    fun startServices(env: String, services: String) =
+    fun startServices(env: String, services: String) {
+        val configFolder = dockerFolder.resolve("tomcat").resolve("config")
+        cloneOrUpdateConfig(configFolder)
         services.trim().split("+").forEach { startService(env, it.trim()) }
+    }
 
-    fun startProxies() {
-        info.proxies.values.forEach {
+    fun startProxies(env: String) {
+        info.proxies.values.filter { it.active }.forEach {
             DockerMachine.INTERNAL_PROXY.start(
                 it.name,
                 mapOf(
-                    "SERVICE_URL" to it.url,
-                    "SERVICE_IP" to it.ip,
-                    "SERVICE_PORT" to it.port,
+                    "SERVICE_URL" to it.servers.getValue(env).url,
+                    "SERVICE_IP" to it.servers.getValue(env).ip,
+                    "SERVICE_PORT" to it.servers.getValue(env).port,
                     "WEB_PROXY" to info.proxyConnection
                 )
             )
@@ -67,6 +72,15 @@ class DockerManager(val info: Info) {
                 val line = bufferedReader.readLine();
                 System.out.println(line);
             }
+        }
+    }
+
+    private fun cloneOrUpdateConfig(folder: File) {
+        if (folder.exists()) {
+            Commander().of("git pull origin master").onDir(folder).verbose(true).run()
+        } else {
+            folder.mkdir()
+            Commander().of("git clone ${info.propertiesRepo} .").onDir(folder).verbose(true).run()
         }
     }
 }

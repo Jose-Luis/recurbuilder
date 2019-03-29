@@ -2,7 +2,8 @@
   "workspace-dir": "/home/xx654/Development/Workspace",
   "cache-dir": "buildercache",
   "backup-dir": "backups",
-  "proxy-connection": "http://xx654:2ool0d1$e4@10.83.0.130:8080",
+  "proxy-connection": "http://USER:PASSWORD@10.83.0.130:8080",
+  "properties-repo": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/properties.git",
   "commands": {
     "build": "mvn clean install -PskipSiebelTests $SKIP_TESTS -Denv=$ENV ",
     "update": "git --no-pager pull origin development",
@@ -16,14 +17,14 @@
     {
       "name": "traces",
       "url": "aireuropa-operational-trace-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-operational-trace-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-operational-trace-parent.git",
       "target": "",
       "deps": []
     },
     {
       "name": "resident",
       "url": "aireuropa-resident-reverify-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-resident-reverify-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-resident-reverify-parent.git",
       "target": "",
       "deps": [
         "traces"
@@ -32,7 +33,7 @@
     {
       "name": "dreamliner",
       "url": "dreamliner-commons-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/dreamliner-commons-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/dreamliner-commons-parent.git",
       "target": "",
       "deps": [
         "traces"
@@ -41,7 +42,7 @@
     {
       "name": "commons",
       "url": "aireuropa-commons-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-commons-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-commons-parent.git",
       "target": "",
       "deps": [
         "dreamliner"
@@ -50,7 +51,7 @@
     {
       "name": "connam",
       "url": "aireuropa-connam-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-connam-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-connam-parent.git",
       "target": "",
       "deps": [
         "dreamliner"
@@ -59,7 +60,7 @@
     {
       "name": "amadeus",
       "url": "aireuropa-amadeus-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-amadeus-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-amadeus-parent.git",
       "target": "",
       "deps": [
         "dreamliner",
@@ -69,7 +70,7 @@
     {
       "name": "ticketing",
       "url": "aireuropa-ticketing-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-ticketing-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-ticketing-parent.git",
       "target": "",
       "deps": [
         "amadeus",
@@ -80,7 +81,7 @@
     {
       "name": "payment",
       "url": "aireuropa-payment-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-payment-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-payment-parent.git",
       "target": "",
       "deps": [
         "dreamliner",
@@ -91,7 +92,7 @@
     {
       "name": "availability-provider",
       "url": "aireuropa-availability-provider-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-availability-provider-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-availability-provider-parent.git",
       "target": "",
       "deps": [
         "commons",
@@ -101,7 +102,7 @@
     {
       "name": "availability",
       "url": "aireuropa-availability-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-availability-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-availability-parent.git",
       "target": "",
       "deps": [
         "availability-provider",
@@ -111,7 +112,7 @@
     {
       "name": "service",
       "url": "aireuropa-service-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/am/aireuropa-service-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/am/aireuropa-service-parent.git",
       "target": "aireuropa-web/target/aireuropaservice.war",
       "deps": [
         "availability-provider",
@@ -123,7 +124,7 @@
     {
       "name": "checkin",
       "url": "aireuropa-checkin-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-checkin-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-checkin-parent.git",
       "target": "checkin-web/target/aireuropacheckin2.war",
       "deps": [
         "commons",
@@ -134,7 +135,7 @@
     {
       "name": "backoffice",
       "url": "aireuropa-backoffice-parent",
-      "remote": "http://xx654:2ool0d1$e4@192.168.151.131/stash/scm/ae/aireuropa-backoffice-parent.git",
+      "remote": "http://USER:PASSWORD@192.168.151.131/stash/scm/ae/aireuropa-backoffice-parent.git",
       "target": "backoffice-web/target/aireuropa-backoffice.war",
       "deps": [
         "payment",
@@ -194,6 +195,14 @@
     {
       "name": "staging",
       "ip": "10.150.6.5",
+      "webapp-dir": "/var/www",
+      "log-dir": "/var/www/servidores/aeastaging01/",
+      "user": "aeauser",
+      "password": "usera3a"
+    },
+    {
+      "name": "pro",
+      "ip": "91.240.57.124",
       "webapp-dir": "/var/www",
       "log-dir": "/var/www/servidores/aeastaging01/",
       "user": "aeauser",
@@ -259,21 +268,66 @@
   "proxies": [
     {
       "name": "siebel-proxy",
-      "url": "siebelpre02.globalia.com",
-      "ip": "192.168.153.142",
-      "port": "7777"
+      "active": false,
+      "servers": {
+        "des": {
+          "url": "siebelpre02.globalia.com",
+          "ip": "192.168.153.142",
+          "port": "7777"
+        },
+        "pre": {
+          "url": "siebelpre02.globalia.com",
+          "ip": "192.168.153.142",
+          "port": "7777"
+        },
+        "pro": {
+          "url": "siebelpre02.globalia.com",
+          "ip": "192.168.153.142",
+          "port": "7777"
+        }
+      }
     },
     {
       "name": "altea-proxy",
-      "url": "production.webservices.1a.amadeus.net",
-      "ip": "194.76.166.67",
-      "port": "80"
+      "active": false,
+      "servers": {
+        "des": {
+          "url": "production.webservices.1a.amadeus.net",
+          "ip": "194.76.166.67",
+          "port": "80"
+        },
+        "pre": {
+          "url": "production.webservices.1a.amadeus.net",
+          "ip": "194.76.166.67",
+          "port": "80"
+        },
+        "pro": {
+          "url": "production.webservices.1a.amadeus.net",
+          "ip": "194.76.166.67",
+          "port": "80"
+        }
+      }
     },
     {
       "name": "connam-proxy",
-      "url": "10.153.0.24",
-      "ip": "10.153.0.24",
-      "port": "8180"
+      "active": false,
+      "servers": {
+        "des": {
+          "url": "10.153.0.24",
+          "ip": "10.153.0.24",
+          "port": "8180"
+        },
+        "pre": {
+          "url": "10.153.0.24",
+          "ip": "10.153.0.24",
+          "port": "8180"
+        },
+        "pro": {
+          "url": "10.153.0.24",
+          "ip": "10.153.0.24",
+          "port": "8180"
+        }
+      }
     }
   ]
 }
