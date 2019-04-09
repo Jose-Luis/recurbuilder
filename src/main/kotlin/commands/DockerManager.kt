@@ -25,14 +25,14 @@ class DockerManager(val info: Info) {
 
     private fun startService(env: String, service: String) {
         val project = info.projects[service]
-        val targetFolder = info.workspace.resolve(project.target).parent
+        val warname = info.workspace.resolve(project.target).name
         val servicename = info.workspace.resolve(project.target).nameWithoutExtension
         val configFolder = dockerFolder.resolve("tomcat").resolve("config")
         DockerMachine.SERVICE.start(
             servicename, mapOf(
                 "CONFIG_FOLDER" to configFolder.resolve(getConfigFolder(env)).absolutePath,
-                "SERVICE_NAME" to servicename,
-                "TARGET_FOLDER" to targetFolder,
+                "WAR_URL" to info.workspace.resolve(project.target).absolutePath,
+                "WAR_FILE" to warname,
                 "PORT" to info.apps.getValue(service).port,
                 "DEBUG_PORT" to (Integer.valueOf(info.apps.getValue(service).port) + 1000).toString()
             )
