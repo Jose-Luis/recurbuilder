@@ -41,6 +41,10 @@ class Commander() {
 
     fun start() = ProcessBuilder(*resolveCommandString()).directory(workingDir).start()
 
+    fun startIO() {
+        ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO().start().waitFor()
+    }
+
     fun start(output: File) =
         ProcessBuilder(*resolveCommandString()).inheritIO().directory(workingDir)
             .redirectError(output).redirectOutput(output).start()

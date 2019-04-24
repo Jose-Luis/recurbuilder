@@ -6,7 +6,7 @@ import java.io.File
 enum class DockerMachine(private val imageName: String, private val runCommand: String) {
     PROXY(
         "proxy",
-        "docker run --rm --net-alias pre.aireuropa.com --net-alias des.aireuropa.com -p 80:80 -e REDIRECTIONS=\$REDIRECTIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
+        "docker run -it --rm --detach-keys='ctrl-c' --net-alias pre.aireuropa.com --net-alias des.aireuropa.com -p 80:80 -e REDIRECTIONS=\$REDIRECTIONS -e EDITIONS=\$EDITIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
     ),
     SERVICE(
         "tomcat",

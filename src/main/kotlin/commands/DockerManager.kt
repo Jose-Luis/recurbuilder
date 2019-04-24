@@ -13,11 +13,12 @@ class DockerManager(val info: Info) {
         val dockerOutput = dockerFolder.resolve("servers.log")
     }
 
-    fun startProxy(serverName: String, redirections: String) {
+    fun startProxy(serverName: String, redirections: String, editions: String) {
         val server = info.servers[serverName]
         DockerMachine.PROXY.start(
             "proxy", mapOf(
                 "REDIRECTIONS" to redirections,
+                "EDITIONS" to editions,
                 "URL" to getUrl(serverName), "IP" to server!!.ip
             )
         )
@@ -61,9 +62,16 @@ class DockerManager(val info: Info) {
 
     fun stopProxy() = DockerMachine.PROXY.stop("proxy")
 
-    fun stopServices(services: String) = services.trim().split("+").forEach { DockerMachine.SERVICE.stop(it) }
+    fun stopServices(services: String) {
+        services.trim().split("+").map {
+            val project = info.projects[it]
+            info.workspace.resolve(project.target).nameWithoutExtension
+        }.forEach { DockerMachine.SERVICE.stop(it) }
+    }
 
     fun stopProxies() = info.proxies.keys.forEach { DockerMachine.INTERNAL_PROXY.stop(it) }
+
+    fun attachProxy() = Commander().of("docker attach proxy").onDir(dockerFolder).startIO()
 
     fun readBuffer() {
         val bufferedReader = BufferedReader(FileReader(dockerOutput));

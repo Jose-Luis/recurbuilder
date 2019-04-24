@@ -21,6 +21,7 @@ class ServiceStarter :
     private val env by option("-e", "--environment").choice("dev", "pre", "pro")
     private val proxiedServer by option("-p", "--proxy")
     private val redirections by option("-r", "--redirections").multiple()
+    private val editions by option("-ed", "--editions").multiple()
     private val infoFile by option("-i", "--infoFile").file(exists = true).default(File("../info.json"))
     private val workspace by option("-w", "--workspace").file(exists = true)
     override fun run() {
@@ -39,10 +40,13 @@ class ServiceStarter :
             dockerManager.stopProxies()
         })
         dockerManager.startServices(env, servicesJoint)
-        if (hasProxy) dockerManager.startProxy(proxiedServer!!, allRedirections)
+        if (hasProxy) dockerManager.startProxy(
+            proxiedServer!!,
+            allRedirections,
+            editions.joinToString("+") { it.trim() })
         dockerManager.startProxies(env)
-        dockerManager.readBuffer()
-
+        Thread.sleep(1000)
+        dockerManager.attachProxy()
     }
 
 

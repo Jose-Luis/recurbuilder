@@ -1,14 +1,29 @@
 const proxy = require('express-http-proxy');
 const express = require('express');
 const curlify = require('request-as-curl');
-var colors = require('colors');
+const colors = require('colors');
+const readline = require('readline-sync');
 
 let redirections = process.env.REDIRECTIONS || "";
+
+let editions = process.env.EDITIONS || "";
 
 function proxyOptions(color, httpsConnection) {
     return {
         reqAsBuffer: true,
         https: httpsConnection,
+        proxyReqBodyDecorator: function (bodyContent, srcReq) {
+            if (editions !== undefined && editions !== "" && bodyContent !== undefined && bodyContent.length > 0 && srcReq.url.includes(editions)) {
+                console.log(colors.red(bodyContent.toString()));
+                var newBody = readline.question('Insert new body (Intro to continue) : ');
+                console.log(newBody);
+                if (newBody) {
+                    return newBody;
+                }
+                return bodyContent;
+            }
+            return bodyContent;
+        },
         proxyReqOptDecorator: function (proxyReqOpts, originalReq) {
             proxyReqOpts.rejectUnauthorized = false;
             return proxyReqOpts;
@@ -21,7 +36,7 @@ function proxyOptions(color, httpsConnection) {
     }
 }
 
-var register = function (app, https) {
+var register = function (app, https, editions) {
     redirections.split("+").forEach(redirection => {
         app.all("*/" + redirection.split("->")[0] + "/*", proxy(redirection.split("->")[1], proxyOptions(colors.green, https)));
     });
