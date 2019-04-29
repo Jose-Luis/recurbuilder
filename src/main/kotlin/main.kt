@@ -14,6 +14,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     Clone(),
     Update(),
     ServiceStarter(),
+    SetVersion(),
     Log()
 ).main(args)
 

@@ -17,6 +17,13 @@ class ProjectTree(rootInfo: Root) {
 
     fun all(): Collection<Node> = projects.values
 
+    fun serialVisit(condition: (Node) -> Boolean): Visitable {
+        return object : Visitable {
+            override fun with(visitor: NodeVisitor) = projects.values.filter { condition.invoke(it) }
+                .forEach { node -> node.acceptVisitor(visitor) }
+        }
+    }
+
     fun visit(condition: (Node) -> Boolean): Visitable {
         return object : Visitable {
             override fun with(visitor: NodeVisitor) = projects.values.filter { condition.invoke(it) }
