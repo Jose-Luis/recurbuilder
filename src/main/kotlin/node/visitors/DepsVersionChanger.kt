@@ -3,7 +3,7 @@ package node.visitors
 import info.Info
 import node.Node
 
-class PomVersionChanger(val info: Info, val nodename: String, val version: String) : NodeVisitor {
+class DepsVersionChanger(val info: Info, val nodename: String, val version: String) : NodeVisitor {
     override fun visit(node: Node) {
         val versionTagRegex = Regex("(.*<\\w*\\.?$nodename.version>)(.*)(</\\w*\\.?$nodename.version>)")
         info.workspace.resolve(node.dir).walkTopDown()
