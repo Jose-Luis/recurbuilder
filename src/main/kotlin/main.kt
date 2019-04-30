@@ -15,6 +15,7 @@ fun main(args: Array<String>) = Tool().subcommands(
     Update(),
     ServiceStarter(),
     SetVersion(),
+    SetDependencyVersion(),
     Log()
 ).main(args)
 
