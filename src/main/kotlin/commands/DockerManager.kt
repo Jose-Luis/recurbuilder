@@ -24,7 +24,11 @@ class DockerManager(val info: Info) {
         )
     }
 
-    private fun startService(env: String, service: String) {
+    fun startNginx() {
+        DockerMachine.NGINX.start("nginx_https", emptyMap())
+    }
+
+    fun startService(env: String, service: String) {
         val project = info.projects[service]
         val warname = info.workspace.resolve(project.target).name
         val servicename = info.workspace.resolve(project.target).nameWithoutExtension
@@ -61,6 +65,8 @@ class DockerManager(val info: Info) {
     }
 
     fun stopProxy() = DockerMachine.PROXY.stop("proxy")
+
+    fun stopNginx() = DockerMachine.NGINX.stop("nginx_https")
 
     fun stopServices(services: String) {
         services.trim().split("+").map {

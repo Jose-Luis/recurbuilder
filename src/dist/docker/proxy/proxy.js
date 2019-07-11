@@ -24,10 +24,6 @@ function proxyOptions(color, httpsConnection) {
             }
             return bodyContent;
         },
-        proxyReqOptDecorator: function (proxyReqOpts, originalReq) {
-            proxyReqOpts.rejectUnauthorized = false;
-            return proxyReqOpts;
-        },
         userResDecorator: function (proxyRes, proxyResData, userReq, userRes) {
             console.log(color(curlify(userReq)));
             console.log(color(colors.bold("RESPONSE CODE: " + userRes.statusCode)));

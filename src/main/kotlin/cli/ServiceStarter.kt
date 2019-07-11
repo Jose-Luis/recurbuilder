@@ -37,6 +37,7 @@ class ServiceStarter :
         Runtime.getRuntime().addShutdownHook(Thread {
             dockerManager.stopServices(servicesJoint)
             if (hasProxy) dockerManager.stopProxy()
+            dockerManager.stopNginx()
             dockerManager.stopProxies()
         })
         dockerManager.startServices(env, servicesJoint)
@@ -44,6 +45,7 @@ class ServiceStarter :
             proxiedServer!!,
             allRedirections,
             editions.joinToString("+") { it.trim() })
+        dockerManager.startNginx()
         dockerManager.startProxies(env)
         Thread.sleep(1000)
         dockerManager.attachProxy()
