@@ -9,9 +9,15 @@ class Commander() {
     private lateinit var output: File
     private var params: MutableMap<String, String> = HashMap()
     private var verbose = false
+    private var showCommand = false
 
     fun onDir(workingDir: File): Commander {
         this.workingDir = workingDir
+        return this
+    }
+
+    fun showCommand(showCommand: Boolean): Commander {
+        this.showCommand = showCommand
         return this
     }
 
@@ -36,6 +42,7 @@ class Commander() {
     private fun resolveCommandString(): Array<String> {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
         val command = commandString.trim().replace("\\s+".toRegex(), " ")
+        if (showCommand) println("--> Executing command: $command")
         return command.split(" ").toTypedArray()
     }
 

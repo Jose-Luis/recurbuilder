@@ -79,6 +79,9 @@ class DockerManager(val info: Info) {
 
     fun attachProxy() = Commander().of("docker attach proxy").onDir(dockerFolder).startIO()
 
+    fun isMachineUp(machine: DockerMachine) =
+        Commander().of("docker ps").onDir(dockerFolder).run().output.contains(machine.imageName)
+
     fun readBuffer() {
         val bufferedReader = BufferedReader(FileReader(dockerOutput));
         while (true) {
@@ -90,7 +93,7 @@ class DockerManager(val info: Info) {
     }
 
     private fun cloneOrUpdateConfig(folder: File) {
-        if (folder.exists()) {
+        if (folder.resolve(".git").exists()) {
             Commander().of("git pull origin master").onDir(folder).verbose(true).run()
         } else {
             folder.mkdir()

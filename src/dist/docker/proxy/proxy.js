@@ -34,7 +34,7 @@ function proxyOptions(color, httpsConnection) {
 
 var register = function (app, https, editions) {
     redirections.split("+").forEach(redirection => {
-        app.all("*/" + redirection.split("->")[0] + "/*", proxy(redirection.split("->")[1], proxyOptions(colors.green, https)));
+        app.all("*/" + redirection.split("---")[0] + "/*", proxy(redirection.split("---")[1], proxyOptions(colors.green, https)));
     });
 
     app.all('*', (req, res, next) => {
@@ -46,12 +46,9 @@ var http = express();
 register(http, false);
 http.listen(80, function () {
     console.log("Proxy listen on port 80");
-});
-
-var https = express();
-register(https, true);
-https.listen(443, function () {
-    console.log("Proxy listen on port 443");
+    redirections.split("+").forEach(redirection => {
+        console.log("Redirecting traffic for " + redirection.split("->")[0] + " to " + redirection.split("->")[1]);
+    })
 });
 
 

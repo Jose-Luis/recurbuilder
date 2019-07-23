@@ -3,14 +3,14 @@ package docker
 import tools.Commander
 import java.io.File
 
-enum class DockerMachine(private val imageName: String, private val runCommand: String) {
+enum class DockerMachine(val imageName: String, private val runCommand: String) {
     NGINX(
         "nginx_https",
-        "docker run --rm -p 443:443 -p 80:80 --net \$NETWORK_NAME --name \$NAME nginx_https"
+        "docker run --rm -p 443:443 --net \$NETWORK_NAME --name \$NAME nginx_https"
     ),
     PROXY(
         "proxy",
-        "docker run -it --rm --detach-keys='ctrl-c' --net-alias des.aireuropa.com --net-alias pre.aireuropa.com --net-alias stg.aireuropa.com  -e REDIRECTIONS=\$REDIRECTIONS -e EDITIONS=\$EDITIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
+        "docker run -it --rm -p 80:80 --net-alias des.aireuropa.com --net-alias pre.aireuropa.com --net-alias stg.aireuropa.com  -e REDIRECTIONS=\$REDIRECTIONS -e EDITIONS=\$EDITIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
     ),
     SERVICE(
         "tomcat",
@@ -34,6 +34,7 @@ enum class DockerMachine(private val imageName: String, private val runCommand: 
         options.forEach { dockerCommander.param(it.key, it.value) }
         dockerCommander.param("NETWORK_NAME", NETWORK_NAME)
         dockerCommander.param("NAME", machineName)
+        dockerCommander.showCommand(true)
         dockerCommander.start(dockerOutput)
     }
 

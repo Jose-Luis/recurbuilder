@@ -12,8 +12,10 @@ import commands.Builder
 import commands.DockerManager
 import commands.ProjectCloner
 import commands.getEnv
+import docker.DockerMachine
 import info.Info
 import java.io.File
+import java.lang.Thread.sleep
 
 class ServiceStarter :
     CliktCommand(help = "Compile the projects and start it on a proxiedServer", name = "up") {
@@ -29,26 +31,34 @@ class ServiceStarter :
         val hasProxy = !proxiedServer.isNullOrBlank()
         val servicesJoint = services.joinToString("+")
         val allRedirections = services.map { info.workspace.resolve(info.projects[it].target).nameWithoutExtension }
-            .map { "$it->$it:8080" }.union(this.redirections).joinToString("+") { it.trim() }
+            .map { "$it---$it:8080" }.union(this.redirections).joinToString("+") { it.trim() }
         val env = if (hasProxy) getEnv(proxiedServer!!) else env ?: "dev"
         println("=== Using profile -> ${env.toUpperCase()}")
         services.forEach { downloadAndBuild(it, env, info) }
         val dockerManager = DockerManager(info)
+        setDownActions(dockerManager, servicesJoint)
+        dockerManager.startServices(env, servicesJoint)
+        if (hasProxy) dockerManager.startProxy(
+            proxiedServer!!,
+            allRedirections,
+            editions.joinToString("+") { it.trim() })
+        while (!dockerManager.isMachineUp(DockerMachine.PROXY)) {
+            sleep(200)
+        }
+        dockerManager.startNginx()
+        dockerManager.startProxies(env)
+        sleep(1000)
+        dockerManager.attachProxy()
+    }
+
+    private fun setDownActions(dockerManager: DockerManager, servicesJoint: String) {
+        val hasProxy = !proxiedServer.isNullOrBlank()
         Runtime.getRuntime().addShutdownHook(Thread {
             dockerManager.stopServices(servicesJoint)
             if (hasProxy) dockerManager.stopProxy()
             dockerManager.stopNginx()
             dockerManager.stopProxies()
         })
-        dockerManager.startServices(env, servicesJoint)
-        if (hasProxy) dockerManager.startProxy(
-            proxiedServer!!,
-            allRedirections,
-            editions.joinToString("+") { it.trim() })
-        dockerManager.startNginx()
-        dockerManager.startProxies(env)
-        Thread.sleep(1000)
-        dockerManager.attachProxy()
     }
 
 
