@@ -1,6 +1,8 @@
 package commands
 
 import info.Info
+import tools.ANSI_CYAN
+import tools.print
 import kotlin.system.exitProcess
 
 class Logger(
@@ -12,7 +14,7 @@ class Logger(
     fun log() {
         val server = info.servers[server]!!
         val app = info.apps[projectname]!!
-        System.out.println("===LOG")
+        print("===LOG", ANSI_CYAN)
         info.SSHClient.showLog(server, app, regex)
         exitProcess(0)
     }

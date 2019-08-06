@@ -42,7 +42,6 @@ class Commander() {
     private fun resolveCommandString(): Array<String> {
         params.entries.forEach { commandString = commandString.replace("$".plus(it.key), it.value) }
         val command = commandString.trim().replace("\\s+".toRegex(), " ")
-        if (showCommand) println("--> Executing command: $command")
         return command.split(" ").toTypedArray()
     }
 
@@ -52,22 +51,34 @@ class Commander() {
         ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO().start().waitFor()
     }
 
-    fun start(output: File) =
+    fun start(output: File) {
         ProcessBuilder(*resolveCommandString()).inheritIO().directory(workingDir)
             .redirectError(output).redirectOutput(output).start()
+    }
 
     fun run(): CommandResult {
-        val processBuilder = ProcessBuilder(*resolveCommandString()).directory(workingDir).inheritIO()
-        val output = File.createTempFile("stdout", "txt")
-        val error = File.createTempFile("stderr", "txt")
-        if (!verbose) {
-            processBuilder.redirectOutput(output)
-            processBuilder.redirectError(error)
+        val command = resolveCommandString()
+        val processBuilder = ProcessBuilder(*command).directory(workingDir).inheritIO()
+        val output = File.createTempFile(command[0], ".txt")
+        val error = File.createTempFile("ERR-${command[0]}", ".txt")
+        processBuilder.redirectOutput(output)
+        processBuilder.redirectError(error)
+        if (verbose) {
+            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT)
         }
         val process = processBuilder.start()
         process.waitFor()
-        return CommandResult(output.readText(Charsets.UTF_8), error.readText(Charsets.UTF_8), process.exitValue())
+        val outputString = output.readText(Charsets.UTF_8)
+        val errorString = error.readText(Charsets.UTF_8)
+        val result = CommandResult(outputString, errorString, process.exitValue())
+        if (!result.isOk()) {
+            print(command.joinToString(" "), ANSI_RED)
+            print(errorString, ANSI_RED)
+        }
+        return result
     }
+
 
     fun OS(): String = System.getProperty("os.name").toLowerCase()
 

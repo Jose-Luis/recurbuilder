@@ -1,6 +1,6 @@
 package docker
 
-import tools.Commander
+import tools.*
 import java.io.File
 
 enum class DockerMachine(val imageName: String, private val runCommand: String) {
@@ -10,7 +10,7 @@ enum class DockerMachine(val imageName: String, private val runCommand: String) 
     ),
     PROXY(
         "proxy",
-        "docker run -it --rm -p 80:80 --net-alias des.aireuropa.com --net-alias pre.aireuropa.com --net-alias stg.aireuropa.com  -e REDIRECTIONS=\$REDIRECTIONS -e EDITIONS=\$EDITIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
+        "docker run -it --detach-keys=\"X\" --rm -p 80:80 --net-alias des.aireuropa.com --net-alias pre.aireuropa.com --net-alias stg.aireuropa.com  -e REDIRECTIONS=\$REDIRECTIONS -e EDITIONS=\$EDITIONS --add-host \$URL:\$IP --net \$NETWORK_NAME --name \$NAME proxy"
     ),
     SERVICE(
         "tomcat",
@@ -28,21 +28,21 @@ enum class DockerMachine(val imageName: String, private val runCommand: String) 
     }
 
     fun start(machineName: String, options: Map<String, String>) {
-        Commander().of("docker build $imageName -t $imageName").onDir(dockerFolder).verbose(true).run()
+        print("The container $machineName is has been started", ANSI_BRIGHT_GREEN)
+        Commander().of("docker build $imageName -t $imageName").onDir(dockerFolder).run()
         if (!isNetCreated()) createNetwork()
         val dockerCommander = Commander().of(runCommand).onDir(dockerFolder)
         options.forEach { dockerCommander.param(it.key, it.value) }
         dockerCommander.param("NETWORK_NAME", NETWORK_NAME)
         dockerCommander.param("NAME", machineName)
-        dockerCommander.showCommand(true)
         dockerCommander.start(dockerOutput)
     }
 
     fun stop(machineName: String) {
         val containers = Commander().of("docker container ls").onDir(dockerFolder).run().output
         if (containers.contains(machineName)) {
-            println("===STOPPING $machineName")
-            Commander().of("docker kill $machineName").onDir(dockerFolder).verbose(true).run()
+            print("===STOPPING $machineName", ANSI_RED)
+            Commander().of("docker kill $machineName").onDir(dockerFolder).run()
         }
     }
 

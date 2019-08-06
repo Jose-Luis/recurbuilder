@@ -21,6 +21,8 @@ function proxyOptions(color, httpsConnection) {
                     return newBody;
                 }
                 return bodyContent;
+            }else {
+                console.log(colors.red(bodyContent.toString()));
             }
             return bodyContent;
         },

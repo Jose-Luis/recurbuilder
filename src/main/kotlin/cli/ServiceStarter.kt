@@ -14,6 +14,8 @@ import commands.ProjectCloner
 import commands.getEnv
 import docker.DockerMachine
 import info.Info
+import tools.ANSI_CYAN
+import tools.print
 import java.io.File
 import java.lang.Thread.sleep
 
@@ -43,11 +45,15 @@ class ServiceStarter :
             allRedirections,
             editions.joinToString("+") { it.trim() })
         while (!dockerManager.isMachineUp(DockerMachine.PROXY)) {
-            sleep(200)
+            sleep(1000)
         }
         dockerManager.startNginx()
+        println("\r")
+        print("ALL CONTAINERS HAVE BEEN STARTED!", ANSI_CYAN)
+        println("\r")
+        print("The page is serve on localhost, remember change you hosts file", ANSI_CYAN)
+        println("\r")
         dockerManager.startProxies(env)
-        sleep(1000)
         dockerManager.attachProxy()
     }
 

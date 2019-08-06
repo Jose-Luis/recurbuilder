@@ -2,7 +2,9 @@ package commands
 
 import docker.DockerMachine
 import info.Info
+import tools.ANSI_BRIGHT_GREEN
 import tools.Commander
+import tools.print
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -99,6 +101,7 @@ class DockerManager(val info: Info) {
             folder.mkdir()
             Commander().of("git clone ${info.propertiesRepo} .").onDir(folder).verbose(true).run()
         }
+        print("==PROPERTIES SYNCHRONIZED \u2713", ANSI_BRIGHT_GREEN)
     }
 }
 
