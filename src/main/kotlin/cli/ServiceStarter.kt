@@ -15,6 +15,8 @@ import commands.getEnv
 import docker.DockerMachine
 import info.Info
 import tools.ANSI_CYAN
+import tools.ANSI_GREEN
+import tools.ANSI_YELLOW
 import tools.print
 import java.io.File
 import java.lang.Thread.sleep
@@ -48,11 +50,9 @@ class ServiceStarter :
             sleep(1000)
         }
         dockerManager.startNginx()
-        println("\r")
-        print("ALL CONTAINERS HAVE BEEN STARTED!", ANSI_CYAN)
-        println("\r")
-        print("The page is serve on localhost, remember change you hosts file", ANSI_CYAN)
-        println("\r")
+        print("\r==ALL CONTAINERS STARTED \u2713", ANSI_GREEN)
+        print("The page is serve on localhost, remember change you hosts file", ANSI_YELLOW)
+        print("PRESS Ctrl-P Ctrl-Q to exit and stop all container", ANSI_YELLOW)
         dockerManager.startProxies(env)
         dockerManager.attachProxy()
     }

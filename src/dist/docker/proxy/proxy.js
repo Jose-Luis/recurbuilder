@@ -22,7 +22,7 @@ function proxyOptions(color, httpsConnection) {
                 }
                 return bodyContent;
             }else {
-                console.log(colors.red(bodyContent.toString()));
+                console.log(colors.cyan(bodyContent.toString()));
             }
             return bodyContent;
         },

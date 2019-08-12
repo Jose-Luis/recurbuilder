@@ -3,11 +3,10 @@ package commands
 import docker.DockerMachine
 import info.Info
 import tools.ANSI_BRIGHT_GREEN
+import tools.ANSI_BRIGHT_RED
 import tools.Commander
 import tools.print
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 
 class DockerManager(val info: Info) {
     companion object {
@@ -48,6 +47,7 @@ class DockerManager(val info: Info) {
 
     fun startServices(env: String, services: String) {
         val configFolder = dockerFolder.resolve("tomcat").resolve("config")
+        if (configFolder.exists()) configFolder.deleteRecursively()
         cloneOrUpdateConfig(configFolder)
         services.trim().split("+").forEach { startService(env, it.trim()) }
     }
@@ -84,24 +84,11 @@ class DockerManager(val info: Info) {
     fun isMachineUp(machine: DockerMachine) =
         Commander().of("docker ps").onDir(dockerFolder).run().output.contains(machine.imageName)
 
-    fun readBuffer() {
-        val bufferedReader = BufferedReader(FileReader(dockerOutput));
-        while (true) {
-            if (bufferedReader.ready()) {
-                val line = bufferedReader.readLine();
-                System.out.println(line);
-            }
-        }
-    }
-
-    private fun cloneOrUpdateConfig(folder: File) {
-        if (folder.resolve(".git").exists()) {
-            Commander().of("git pull origin master").onDir(folder).verbose(true).run()
-        } else {
-            folder.mkdir()
-            Commander().of("git clone ${info.propertiesRepo} .").onDir(folder).verbose(true).run()
-        }
-        print("==PROPERTIES SYNCHRONIZED \u2713", ANSI_BRIGHT_GREEN)
+    private fun cloneOrUpdateConfig(configFolder: File) {
+        configFolder.mkdir()
+        val result = Commander().of("git clone ${info.propertiesRepo} .").onDir(configFolder).run()
+        if (result.isOk())  print("\r==PROPERTIES SYNCHRONIZED \u2713", ANSI_BRIGHT_GREEN)
+        else print("==ERROR ON SYNC PROPERTIES \u2718", ANSI_BRIGHT_RED)
     }
 }
 

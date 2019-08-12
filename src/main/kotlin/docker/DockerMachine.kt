@@ -28,7 +28,7 @@ enum class DockerMachine(val imageName: String, private val runCommand: String) 
     }
 
     fun start(machineName: String, options: Map<String, String>) {
-        print("The container $machineName is has been started", ANSI_BRIGHT_GREEN)
+        print("$machineName \u2713", ANSI_YELLOW)
         Commander().of("docker build $imageName -t $imageName").onDir(dockerFolder).run()
         if (!isNetCreated()) createNetwork()
         val dockerCommander = Commander().of(runCommand).onDir(dockerFolder)
